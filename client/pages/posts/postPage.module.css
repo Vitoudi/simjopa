@@ -1,0 +1,45 @@
+.post-page {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.header-area {
+    justify-self: center;
+    margin: 2rem 0 3rem 0;
+    width: 80%;
+}
+
+.title {
+    font-size: 3.7rem;
+    margin-bottom: 1rem;
+}
+
+.date {
+    color: rgba(5, 5, 5, 0.4);
+    font-weight: 600;
+}
+
+.subtitle {
+    color: var(--l-black);
+    font-weight: normal;
+    font-size: 1.3rem;
+}
+
+.content {
+    width: 70vw;
+    margin: 2rem;
+    align-self: center;
+    justify-self: center;
+    text-align: justify;
+    font-size: 1.1rem;
+    line-height: 2rem;
+}
+
+.content p {
+    margin: 2rem 0;
+    
+}

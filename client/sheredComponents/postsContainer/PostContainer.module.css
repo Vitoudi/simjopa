@@ -1,0 +1,17 @@
+.post-container {
+    display: grid;
+    
+   align-items: start;
+   align-content: start;
+   grid-template-columns: repeat(auto-fill, minmax(300px, max-content));
+   
+}
+
+.post-container-section-title {
+    padding: 1.5rem 0 0 1rem;
+}
+
+.post-container-wrapper {
+    padding: 0 2rem;
+    
+}

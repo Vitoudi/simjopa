@@ -1,0 +1,9 @@
+.small-display {
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+.text {
+    margin-left: 1rem;
+}

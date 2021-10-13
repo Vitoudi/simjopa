@@ -1,0 +1,43 @@
+.committees-container {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    margin-top: 1rem;
+    padding: 2rem;
+}
+
+.banner-container {
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.image {
+    position: relative;
+    height: 300px;
+    z-index: -1;
+    filter: brightness(50%);
+}
+
+.title {
+    color: white;
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+}
+
+.journalists-container {
+    
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.journalists-container-wrapper {
+    padding: 3rem;
+}

@@ -1,0 +1,26 @@
+.committee-display {
+    position: relative;
+}
+
+.image {
+    filter: brightness(50%);
+    transition: transform .2s;
+}
+
+.image:hover {
+    transform: scale(1.2);
+}
+
+.title-container {
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    z-index: 10;
+}
+.title-container h2 {
+    color: white;
+    font-size: 2.5rem;
+}

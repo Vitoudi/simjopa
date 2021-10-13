@@ -1,0 +1,37 @@
+.home-page {
+  display: flex;
+
+}
+
+.posts-area {
+  flex: 1;
+}
+
+.aside {
+  margin-top: 4.5rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.show-more-btn {
+  border: none;
+  background-color: white;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.315);
+  width: 100%;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+
+.show-more-btn:hover {
+  background-color: rgba(128, 128, 128, 0.205);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,10 @@
+.rounded-box {
+    
+    
+    box-shadow: 2px 2px 3px 2px var(--l-grey2);
+    border-radius: 10px;
+    
+    overflow: hidden;
+    cursor: pointer;
+
+}
