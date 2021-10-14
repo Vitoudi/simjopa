@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.loginController = exports.loginUseCase = void 0;
+var BCryptPasswordEncryptor_1 = require("../../utils/passwordEncryptor/BCryptPasswordEncryptor");
+var sharedDependencies_1 = require("../sharedDependencies");
+var Login_1 = require("./Login");
+var LoginController_1 = require("./LoginController");
+var passwordEncryptor = new BCryptPasswordEncryptor_1.BCryptPasswordEncryptor();
+exports.loginUseCase = new Login_1.Login(sharedDependencies_1.usersRepository, passwordEncryptor);
+exports.loginController = new LoginController_1.LoginController(exports.loginUseCase);

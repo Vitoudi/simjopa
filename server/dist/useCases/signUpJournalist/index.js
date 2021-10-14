@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.signUpJournalistController = void 0;
+var SignUp_1 = require("../SignUp");
+var sharedDependencies_1 = require("../sharedDependencies");
+var SignUpJournalist_1 = require("./SignUpJournalist");
+var signUpJournalistController_1 = require("./signUpJournalistController");
+var signUpJournalistUseCase = new SignUpJournalist_1.SignUpJournalist(sharedDependencies_1.journalistsRepository, sharedDependencies_1.emailsInfosRepository, SignUp_1.signUpUseCase);
+var signUpJournalistController = new signUpJournalistController_1.SignUpJournalistController(signUpJournalistUseCase);
+exports.signUpJournalistController = signUpJournalistController;
