@@ -49,9 +49,9 @@ export default function JournalistPage({ journalist }: Props): ReactElement {
       <div style={{ padding: "3rem", textAlign: "center" }}>
         <h1 style={{ marginBottom: "1rem" }}>{journalist?.name}</h1>
         <RoundImage src={imgUrl} size={120} alt="journalist image" />
-        <div style={{marginTop: "2.5rem"}}>
+        <div style={{marginTop: "2.5rem", display: "grid"}}>
           <h2>Posts:</h2>
-          <section style={{ display: "flex", flexWrap: "wrap", marginTop: "1rem" }}>
+          <section style={{ display: "flex", flexWrap: "wrap", marginTop: "1rem", alignContent: "center", justifyContent: "center" }}>
             {journalistsPosts.map((postInfo) => (
               <Post key={postInfo.id} post={postInfo} />
             ))}
