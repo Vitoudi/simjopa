@@ -3,12 +3,21 @@ import Input from '../../../../sheredComponents/Input/Input';
 import { PostCreationProps } from '../../../../globalContext/PostCreationContext'
 import PostContentEditor from '../PostContentEditor/PostContentEditor';
 import Button from '../../../../sheredComponents/Button/Button';
+import CenteredPageContent from '../../../../sheredComponents/CenteredPageContent/CenteredPageContent';
 
 interface Props {
     postCreationProps: PostCreationProps;
 }
 
 export default function FormToCreatePost({ postCreationProps }: Props): ReactElement {
+
+  if (!postCreationProps) {
+    return (
+      <CenteredPageContent>
+        <h1>Algo deu errado :(</h1>
+      </CenteredPageContent>
+    )
+  }
 
     const { editorState, postCreationInputs, setInputValueByName, submitPost, setEditorState, mode } = postCreationProps;
 
