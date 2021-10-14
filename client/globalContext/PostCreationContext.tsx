@@ -12,7 +12,7 @@ import {
 import dynamic from "next/dynamic";
 import draftToHtml from "draftjs-to-html";
 const EditorState = dynamic(
-  () => import("react-draft-wysiwyg").then((mod) => mod.EditorState),
+  () => (import("react-draft-wysiwyg").then((mod) => mod.EditorState) as any),
   { ssr: false }
 );
 import { AuthContext } from "./auth/AuthContext";
@@ -29,12 +29,12 @@ interface PostCreationInputs {
 }
 
 export interface PostCreationProps {
-  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+  setEditorState: React.Dispatch<React.SetStateAction<any>>;
   postCreationInputs: PostCreationInputs;
   setInputValueByName: (inputValueName: string, value: any) => void;
   submitPost: () => void;
   addExistingPostForUpdate: (post: GetPostDto) => void;
-  editorState: EditorState;
+  editorState: any;
   mode: PostCreationMode;
   setMode: React.Dispatch<React.SetStateAction<PostCreationMode>>;
 }
@@ -54,7 +54,7 @@ export default function PostCreationContextProvider({
       file: null,
     });
 
-  const [editorState, setEditorState] = useState<EditorState>(
+  const [editorState, setEditorState] = useState<any>(
     () => EditorState.defaultProps
   );
 

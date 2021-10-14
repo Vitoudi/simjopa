@@ -7,17 +7,13 @@ import { CreateUserDto, getUserByAuthToken, LoginResponse, User, WithToken } fro
 
 export type AuthStatus = "authenticated" | "unauthenticated" | "loading";
 
-export interface LoginResponse {
-  msg: string;
-  success: boolean;
-}
 
 export interface AuthContextData {
   authStatus: AuthStatus;
   user: User | null;
   loginUser: (email: string, password: string) => Promise<LoginResponse>;
   getUserAuthToken: () => string | null;
-  signUpUser: (info: CreateUserDto) => Promise<void>;
+  signUpUser: (info: CreateUserDto) => Promise<LoginResponse>;
   signUpJournalist: (info: CreateJournalistDto) => Promise<void>;
 }
 

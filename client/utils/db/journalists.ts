@@ -29,7 +29,7 @@ export interface OptionsToGetJournalists extends OptionsToGetData {
   committeId?: number;
 }
 
-export async function getJournalists(options: OptionsToGetJournalists) {
+export async function getJournalists(options?: OptionsToGetJournalists) {
   try {
     let url = JOURNALISTS_URL;
 

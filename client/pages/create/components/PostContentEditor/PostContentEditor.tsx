@@ -1,11 +1,10 @@
 import Draft, { DraftHandleValue, EditorState, RichUtils, Modifier, getDefaultKeyBinding } from 'draft-js';
 import React, { BaseSyntheticEvent, KeyboardEvent, ReactElement, SyntheticEvent, useRef, useState } from 'react'
 import dynamic from "next/dynamic";
-const Editor = dynamic(
-  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
+const Editor = dynamic<any>(
+  () => (import("react-draft-wysiwyg").then((mod) => mod.Editor) as any),
   { ssr: false }
 );
-import ToolbarButton from '../ToolbarButton/ToolbarButton';
 import styles from "./PostContentEditor.module.css"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
