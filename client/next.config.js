@@ -1,8 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: [
-      "localhost",
-    ],
+    domains: ["localhost", "sinuma.herokuapp.com"],
   },
 };
