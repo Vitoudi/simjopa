@@ -3,6 +3,7 @@ import Input from '../../../../sheredComponents/Input/Input';
 import { PostCreationProps } from '../../../../globalContext/PostCreationContext'
 import PostContentEditor from '../PostContentEditor/PostContentEditor';
 import Button from '../../../../sheredComponents/Button/Button';
+import styles from "./FormToCreatePost.module.css";
 import CenteredPageContent from '../../../../sheredComponents/CenteredPageContent/CenteredPageContent';
 
 interface Props {
@@ -27,34 +28,50 @@ export default function FormToCreatePost({ postCreationProps }: Props): ReactEle
       return file || null;
     }
 
+    function handlePostSubmit() {
+      const MAX_LENGTH_FOR_TITLE = 80;
+      const MAX_LENGTH_FOR_SUBTITLE = 240;
+      
+    }
+
 
     return (
       <div style={{ margin: "20px" }}>
-        <h2>Post</h2>
-        <div>
-          <Input
-            placeholder="Título..."
-            value={postCreationInputs?.title || ""}
-            onValueChange={(value) => setInputValueByName?.("title", value)}
-          />
-          <Input
-            placeholder="Resumo..."
-            value={postCreationInputs?.subtitle || ""}
-            onValueChange={(value) => setInputValueByName?.("subtitle", value)}
-          />
+        <h2>Post:</h2>
+        <div className={styles["form"]}>
+          <div className={styles["input-container"]}>
+            <Input
+              placeholder="Título..."
+              value={postCreationInputs?.title || ""}
+              onValueChange={(value) => setInputValueByName?.("title", value)}
+            />
+            <Input
+              placeholder="Resumo..."
+              value={postCreationInputs?.subtitle || ""}
+              onValueChange={(value) =>
+                setInputValueByName?.("subtitle", value)
+              }
+            />
+          </div>
+
           <PostContentEditor
             editorState={editorState}
             onChange={(value) => setEditorState?.(value)}
           />
+          <input
+            type="file"
+            name="postImgFile"
+            onChange={(e) =>
+              setInputValueByName?.("file", getFileFromChangeEvent(e))
+            }
+          />
+          <Button
+            additionalStyles={{ width: "46vw" }}
+            onClick={submitPost}
+          >
+            {mode === "create" ? "Criar" : "Atualizar"}
+          </Button>
         </div>
-        <Button onClick={submitPost}>{mode === "create" ? "Criar" : "Atualizar"}</Button>
-        <input
-          type="file"
-          name="postImgFile"
-          onChange={(e) =>
-            setInputValueByName?.("file", getFileFromChangeEvent(e))
-          }
-        />
       </div>
     );
 }
