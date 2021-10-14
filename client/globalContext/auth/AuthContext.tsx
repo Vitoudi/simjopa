@@ -14,7 +14,7 @@ export interface AuthContextData {
   loginUser: (email: string, password: string) => Promise<LoginResponse>;
   getUserAuthToken: () => string | null;
   signUpUser: (info: CreateUserDto) => Promise<LoginResponse>;
-  signUpJournalist: (info: CreateJournalistDto) => Promise<void>;
+  signUpJournalist: (info: CreateJournalistDto) => Promise<LoginResponse>;
 }
 
 
@@ -91,10 +91,19 @@ export default function AuthContextProvider({ children }: PropsWithChildren<{}>)
         
     }
     
-    async function signUpJournalist(info: CreateJournalistDto) {
-      const signUpJournalistRes = await makeRequestToSignUpJournalist(info);
-
-      handleSignUpResponse(signUpJournalistRes);
+    async function signUpJournalist(info: CreateJournalistDto): Promise<LoginResponse> {
+    
+         try {
+           const res = await makeRequestToSignUpJournalist(
+             info
+           );
+           handleSignUpResponse(res);
+           return { success: true, msg: "Ok" };
+         } catch (err) {
+           const errMsg = getErrorMsgFromErrorObj(err);
+           return { success: false, msg: errMsg };
+         }
+      
     }
 
     useEffect(() => {
