@@ -9,8 +9,11 @@ var express_1 = __importDefault(require("express"));
 var cors_1 = __importDefault(require("cors"));
 var app = express_1.default();
 exports.app = app;
-// app.use(formidable());
+var allowedOrigins = [
+    "https://sinuma-orcin.vercel.app",
+    "http://localhost:3000",
+];
 app.use(express_1.default.static("public"));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.use(cors_1.default({ origin: "http://localhost:3000" }));
+app.use(cors_1.default({ origin: allowedOrigins }));
