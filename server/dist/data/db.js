@@ -12,5 +12,6 @@ var connection = mysql2_1.default.createConnection({
     database: process.env.DB_database,
     port: process.env.DB_port ? +process.env.DB_port : 3306,
 });
+console.log("CONNECTION: ", connection);
 exports.db = connection.promise();
 exports.db.connect;

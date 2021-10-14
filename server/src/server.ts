@@ -8,7 +8,6 @@ import { signUpRouter } from "./routes/signUp";
 import { usersRouter } from "./routes/users";
 
 const PORT = process.env.PORT || 8080;
-console.log("PORT: ", PORT);
 
 app.use("/journalists", journalistsRouter);
 app.use("/posts", postsRouter);

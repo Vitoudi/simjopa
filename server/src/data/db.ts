@@ -8,6 +8,8 @@ const connection = mySql.createConnection({
   port: process.env.DB_port ? +process.env.DB_port : 3306,
 });
 
+console.log("CONNECTION: ", connection);
+
 
 export const db = connection.promise();
 
