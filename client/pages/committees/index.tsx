@@ -20,10 +20,12 @@ interface Props {
 export default function CommitteesPage({ committees }: Props): ReactElement {
     console.log(committees);
     return (
-      <div className={styles['committees-container']}>
+      <>
+      {committees && <div className={styles['committees-container']}>
         {committees.map((committee) => (
             <CommitteeDisplay key={committee.id} committee={committee} />
         ))}
-      </div>
+      </div>}
+      </>
     );
 }

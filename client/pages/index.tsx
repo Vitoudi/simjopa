@@ -56,11 +56,11 @@ export default function Home({ hotPosts, latestPosts, committees }: props) {
         </PostsContainer>
       </section>
 
-      <aside className={styles["aside"]}>
+      {committees && <aside className={styles["aside"]}>
         {committees.map((committee) => (
           <CommitteesSmallDisplay key={committee.id} committee={committee} />
         ))}
-      </aside>
+      </aside>}
     </div>
   );
 }

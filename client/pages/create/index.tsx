@@ -7,14 +7,11 @@ import FormToCreatePost from "./components/FormToCreatePost/FormToCreatePost";
 interface Props {}
 
 export default function CreationPage({}: Props): ReactElement {
+  const postCreationProps = useContext(PostCreationContext);
 
   return (
-      <PostCreationContext.Consumer>
-        {(postCreationProps: PostCreationProps) => (
-          <div>
-            <FormToCreatePost postCreationProps={postCreationProps}/>
-          </div>
-        )}
-      </PostCreationContext.Consumer>
+      <div>
+        <FormToCreatePost postCreationProps={postCreationProps}/>
+      </div>
   );
 }
