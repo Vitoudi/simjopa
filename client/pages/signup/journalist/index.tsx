@@ -1,7 +1,7 @@
 import React, { ReactElement, useContext, useState } from "react";
 import { AuthContext } from "../../../globalContext/auth/AuthContext";
 import SignUpUserForm, { SignUpUserFormFields } from "../components/SignUpUserForm";
-import { validateSignUpUserInputs } from "../utils/validateSignUpInputs";
+import { validateSignUpUserInputs } from "../../../utils/validateSignUpInputs";
 
 interface Props {}
 

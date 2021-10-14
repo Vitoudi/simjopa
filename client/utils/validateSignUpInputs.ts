@@ -1,4 +1,4 @@
-import { SignUpUserFormFields } from "../components/SignUpUserForm";
+import { SignUpUserFormFields } from "../pages/signup/components/SignUpUserForm";
 
 export function validateSignUpUserInputs(formFields: SignUpUserFormFields) {
   const { email, name, password, imgFile } = formFields;
