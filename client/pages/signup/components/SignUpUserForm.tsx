@@ -31,15 +31,7 @@ export default function SignUpUserForm({ onSubmit, errorMsg }: Props): ReactElem
         }));
     }
 
-    function handleChange(e: React.FormEvent<HTMLFormElement>) {
-
-        const target = e.target as HTMLInputElement;
-
-        if (target.type === "file") return;
-
-        const fieldName = target.name;
-        changeFormField(fieldName, target.value);
-    }
+    
 
     function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
       const file = e.target.files?.[0];
@@ -72,7 +64,7 @@ export default function SignUpUserForm({ onSubmit, errorMsg }: Props): ReactElem
             type="email"
             value={formFields.email}
             placeholder="email"
-            onValueChange={(value) => changeFormField("password", value)}
+            onValueChange={(value) => changeFormField("email", value)}
           />
           <Input
             type="password"

@@ -11,10 +11,14 @@ interface Props {
 }
 
 export default function FormContainer({ errorMsg, submitButtonText, shouldShowDefaultSubmitButton: showDefaultSubmitButton, title, onSubmit, children }: PropsWithChildren<Props>): ReactElement {
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if (onSubmit) onSubmit(e);
+    }
 
 
     return (
-        <form className={styles["form"]} onSubmit={(e) => onSubmit?.(e)}>
+        <form className={styles["form"]} onSubmit={handleSubmit}>
             <h2 className={styles["title"]}>{title}</h2>
             {children}
             {errorMsg && (
