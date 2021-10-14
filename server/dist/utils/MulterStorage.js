@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.multerCommitteStorage = exports.multerPostsStorage = exports.multerUserStorage = void 0;
 var multer_1 = __importDefault(require("multer"));
 function getUniqueFileName(originalFileName) {
-    return Date.now() + "-" + originalFileName;
+    return Date.now() + "-" + originalFileName.replace(/ /g, '');
 }
 exports.multerUserStorage = multer_1.default.diskStorage({
     destination: function (req, file, callback) {
