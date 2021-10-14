@@ -19,7 +19,7 @@ export default function SignUpJournalistPage({}: Props): ReactElement {
       return;
     }
 
-    setErrorMsg("");
+
 
     auth.signUpJournalist({
       email,
@@ -33,7 +33,7 @@ export default function SignUpJournalistPage({}: Props): ReactElement {
 
   return (
       <>
-    <SignUpUserForm onSubmit={handleSubmit}/>
+    <SignUpUserForm errorMsg={errorMsg} onSubmit={handleSubmit}/>
     <input type="number" ></input>
     </>
   );

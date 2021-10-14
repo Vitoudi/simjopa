@@ -1,4 +1,4 @@
-import { GetStaticPropsContext } from 'next';
+import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import React, { ReactElement, useEffect, useState } from 'react'
 import { getJournalists, getJournalistById, GetJournalistDto, getJournalistImgPath } from '../../utils/db/journalists';
 import { getPathsFor } from '../../utils/getPathsFor';
@@ -7,7 +7,7 @@ import { GetPostDto, getPostsByJournalist } from '../../utils/db/posts';
 import Post from '../../sheredComponents/Post/Post';
 import { getUserImageFullPath } from '../../utils/db/images';
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths =  async () => {
   const journalists = await getJournalists();
   const paths = getPathsFor(journalists);
 
