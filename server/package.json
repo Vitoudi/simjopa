@@ -1,11 +1,11 @@
 {
-  "name": "server2",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node server.ts"
+    "start": "node ./dist/server.js"
   },
   "keywords": [],
   "author": "",
