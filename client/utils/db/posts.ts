@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 import { API_URL } from "./apiRef";
 import { OptionsToGetData } from "./dbComunication";
 import { constructUrlWithParams } from "./utils/constructUrlWithParams";
+import { LoginResponse } from "./users";
 import { FormDataHttpMethods, getAuthHeader, sendRequestAsFormData } from "./utils/postAsFormData";
 
 const POSTS_URL = API_URL + "/posts"
@@ -80,11 +81,12 @@ export async function getPostsByJournalist(journalistId: number) {
   return response.data ? (response.data as GetPostDto[]) : null;
 }
 
-export async function createPost(token: string, createPostDto: CreatePostDto) {
+export async function createPost(token: string, createPostDto: CreatePostDto): Promise<LoginResponse> {
     const { committeId, htmlContent, imgFile, journalistId, subtitle, title } = createPostDto;
     const url = POSTS_URL + "/create";
 
-    const response = await sendRequestAsFormData({
+    try {
+      const response = await sendRequestAsFormData({
       url,
       jsonData: { committeId, htmlContent, journalistId, subtitle, title },
       file: imgFile,
@@ -92,7 +94,12 @@ export async function createPost(token: string, createPostDto: CreatePostDto) {
       token
     });
 
-    return response.data;
+    return {success: true, msg: "Post criado com sucesso!"};
+    } catch(err) {
+      const errorMsg = "Não foi possível criar o post :(";
+      return {success: false, msg: errorMsg}
+    }
+    
 }
 
 export async function deletePost(token: string, id: number) {
@@ -106,20 +113,25 @@ export async function deletePost(token: string, id: number) {
   }
 }
 
-export async function updatePost(token: string, updatePostDto: UpdatePostDto) {
+export async function updatePost(token: string, updatePostDto: UpdatePostDto): Promise<LoginResponse> {
   const { committeId, htmlContent, imgFile, journalistId, subtitle, title, id } =
     updatePostDto;
 
-  const response = await sendRequestAsFormData({
-    method: "put",
-    url: POSTS_URL,
-    jsonData: { committeId, htmlContent, journalistId, subtitle, title, id },
-    file: imgFile,
-    fileName: "postImg",
-    token,
-  });
+    try {
+      const response = await sendRequestAsFormData({
+        method: "put",
+        url: POSTS_URL,
+        jsonData: { committeId, htmlContent, journalistId, subtitle, title, id },
+        file: imgFile,
+        fileName: "postImg",
+        token,
+      });
 
-  return response.data;
+      return {success: true, msg: "Post atualizado com sucesso!"};
+    } catch(err) {
+      return {success: false, msg: "Não foi possível atualizar o post"}
+    }
+  
 }
 
 export async function increasePostVisitsNumber(postId: number) {
