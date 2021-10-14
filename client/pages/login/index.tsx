@@ -4,7 +4,8 @@ import { AuthContext } from '../../globalContext/auth/AuthContext';
 import FormContainer from '../../sheredComponents/FormContainer/FormContainer';
 import Input from '../../sheredComponents/Input/Input';
 import styles from "./Login.module.css";
-
+import Link from "next/link";
+import BottomFormMsg from '../../sheredComponents/BottomFormMsg/BottomFromMsg';
 
 
 interface Props {
@@ -51,7 +52,13 @@ export default function LoginPage({}: Props): ReactElement {
 
     return (
       <div className={styles["page"]}>
-        <FormContainer errorMsg={errorMsg} submitButtonText="Login" shouldShowDefaultSubmitButton={true} title="Login:" onSubmit={handleSubmit}>
+        <FormContainer
+          errorMsg={errorMsg}
+          submitButtonText="Login"
+          shouldShowDefaultSubmitButton={true}
+          title="Login:"
+          onSubmit={handleSubmit}
+        >
           <Input
             type="text"
             placeholder="email"
@@ -65,7 +72,14 @@ export default function LoginPage({}: Props): ReactElement {
             onValueChange={(value) => setPassword(value)}
           />
         </FormContainer>
-        
+        <div className={styles["form-options-container"]}>
+          <BottomFormMsg href="/signup" redirectMsg="Criar">
+            Não possui conta?
+          </BottomFormMsg>
+          <BottomFormMsg href="/signup/journalist" redirectMsg="Criar">
+            É journalista e não possui conta?
+          </BottomFormMsg>
+        </div>
       </div>
     );
 }

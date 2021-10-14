@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react'
 import CenteredPageContent from '../../../sheredComponents/CenteredPageContent/CenteredPageContent';
 import FormContainer from '../../../sheredComponents/FormContainer/FormContainer';
 import Input from '../../../sheredComponents/Input/Input';
@@ -15,7 +15,7 @@ export interface SignUpUserFormFields {
     imgFile?: File;
 }
 
-export default function SignUpUserForm({ onSubmit, errorMsg }: Props): ReactElement {
+export default function SignUpUserForm({ onSubmit, errorMsg, children }: PropsWithChildren<Props>): ReactElement {
 
     const [formFields, setFormFields] = useState<SignUpUserFormFields>({
         email: "",
@@ -72,6 +72,7 @@ export default function SignUpUserForm({ onSubmit, errorMsg }: Props): ReactElem
             placeholder="senha"
             onValueChange={(value) => changeFormField("password", value)}
           />
+          {children}
           <input
             type="file"
             name="imgFileInput"
