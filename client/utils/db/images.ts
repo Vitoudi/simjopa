@@ -2,8 +2,8 @@ import { API_URL } from "./apiRef";
 
 export function getImageFullPath(imgRef: string) {
   const fullPath = `${API_URL}${!imgRef?.startsWith("/") ? "/" : ""}${imgRef}`;
-  console.log("path: ", fullPath)
-  return fullPath;
+  console.log("path: ", fullPath);
+  return fullPath.replace(" ", "");
 } 
 
 export  function getUserImageFullPath(imgRef: string | undefined) {

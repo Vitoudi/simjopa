@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactElement } from 'react'
+import React, { ChangeEvent, ReactElement, useState } from 'react'
 import Input from '../../../../sheredComponents/Input/Input';
 import { PostCreationProps } from '../../../../globalContext/PostCreationContext'
 import PostContentEditor from '../PostContentEditor/PostContentEditor';
@@ -11,6 +11,8 @@ interface Props {
 }
 
 export default function FormToCreatePost({ postCreationProps }: Props): ReactElement {
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   if (!postCreationProps) {
     return (
@@ -28,12 +30,23 @@ export default function FormToCreatePost({ postCreationProps }: Props): ReactEle
       return file || null;
     }
 
-    function handlePostSubmit() {
+    async function handlePostSubmit() {
+      const { title, subtitle, file } = postCreationInputs;
       const MAX_LENGTH_FOR_TITLE = 80;
       const MAX_LENGTH_FOR_SUBTITLE = 240;
-      
-    }
 
+      if (!title) return setErrorMsg("Adicione um título");
+      if (!subtitle) return setErrorMsg("Adicione um resumo");
+      if (!file) return setErrorMsg("Adicione um aequivo de imagem para o post");
+      if (title.length > MAX_LENGTH_FOR_TITLE) return setErrorMsg(`O título é muito grande (limite de ${MAX_LENGTH_FOR_TITLE} caracteres)`);
+      if (title.length > MAX_LENGTH_FOR_TITLE) return setErrorMsg(`O resumo é muito grande (limite de ${MAX_LENGTH_FOR_SUBTITLE} caracteres)`);
+
+      const res = await submitPost();
+      if (!res.success) return setErrorMsg(res.msg);
+
+      setSuccessMsg(res.msg);
+      setErrorMsg("");
+    }
 
     return (
       <div style={{ margin: "20px" }}>
@@ -65,10 +78,27 @@ export default function FormToCreatePost({ postCreationProps }: Props): ReactEle
               setInputValueByName?.("file", getFileFromChangeEvent(e))
             }
           />
-          <Button
-            additionalStyles={{ width: "46vw" }}
-            onClick={submitPost}
-          >
+          {errorMsg && (
+            <p
+              style={{
+                color: "darkred",
+                fontWeight: "bold",
+              }}
+            >
+              {errorMsg}
+            </p>
+          )}
+          {successMsg && (
+            <p
+              style={{
+                color: "green",
+                fontWeight: "bold",
+              }}
+            >
+              {successMsg}
+            </p>
+          )}
+          <Button additionalStyles={{ width: "46vw" }} onClick={handlePostSubmit}>
             {mode === "create" ? "Criar" : "Atualizar"}
           </Button>
         </div>

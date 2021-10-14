@@ -18,6 +18,7 @@ const EditorState = dynamic(
 import { AuthContext } from "./auth/AuthContext";
 import { getJournalistByUserId } from "../utils/db/journalists";
 import { createPost as sendRequestToCreatePost, CreatePostDto, GetPostDto, updatePost as sendRequestToUpdatePost, UpdatePostDto } from "../utils/db/posts";
+import { LoginResponse } from "../utils/db/users";
 // import htmlToDraft from "html-to-draftjs";
 
 export type PostCreationMode = "update" | "create";
@@ -32,7 +33,7 @@ export interface PostCreationProps {
   setEditorState: React.Dispatch<React.SetStateAction<any>>;
   postCreationInputs: PostCreationInputs;
   setInputValueByName: (inputValueName: string, value: any) => void;
-  submitPost: () => void;
+  submitPost: () => Promise<LoginResponse>;
   addExistingPostForUpdate: (post: GetPostDto) => void;
   editorState: any;
   mode: PostCreationMode;
@@ -66,8 +67,13 @@ export default function PostCreationContextProvider({
   }
 
   async function submitPost() {
-    if (mode === "create") await createPost();
-    else await updatePost()
+    if (mode === "create") {
+      const res = await createPost()
+      return res;
+    }
+    
+    const res = await updatePost();
+    return res;
   }
 
   function addExistingPostForUpdate(post: GetPostDto) {
@@ -105,36 +111,45 @@ export default function PostCreationContextProvider({
     setEditorState(editorState);
   }
 
-  async function createPost() {
-      const token = auth.getUserAuthToken();
-      const user = auth.user;
+  async function createPost(): Promise<LoginResponse> {
+    const token = auth.getUserAuthToken();
+    const user = auth.user;
 
-      if (!token || !user) return;
-
-      const journalist = await getJournalistByUserId(user.id);
-
-      if (!journalist) return;
-
-      const { title, subtitle, file } = postCreationInputs;
-      const htmlContent = getPostHtmlContent();
-
-      const postInfo = {
-        title,
-        journalistId: journalist.id,
-        committeId: journalist.committeId,
-        htmlContent,
-        imgFile: file,
-        subtitle,
+    if (!token || !user)
+      return {
+        success: false,
+        msg: "É preciso estar autenticado para criar um post",
       };
 
-      await sendRequestToCreatePost(token, postInfo);
+    const journalist = await getJournalistByUserId(user.id);
+
+    if (!journalist)
+      return {
+        success: false,
+        msg: "Você não possui autorização para criar um post",
+      };
+
+    const { title, subtitle, file } = postCreationInputs;
+    const htmlContent = getPostHtmlContent();
+
+    const postInfo = {
+      title,
+      journalistId: journalist.id,
+      committeId: journalist.committeId,
+      htmlContent,
+      imgFile: file,
+      subtitle,
+    };
+
+    const res = await sendRequestToCreatePost(token, postInfo);
+    return res;
   }
 
-  async function updatePost() {
-      if (!post) return;
+  async function updatePost(): Promise<LoginResponse> {
+      if (!post) return { success: false,msg: "Post não encontrado"};
 
       const token = auth.getUserAuthToken();
-      if (!token) return;
+      if (!token) return { success: false, msg: "Atorização pendente" };
 
       const { id } = post;
       const { title, subtitle, file } = postCreationInputs;
@@ -148,7 +163,8 @@ export default function PostCreationContextProvider({
           imgFile: file
       }
 
-      await sendRequestToUpdatePost(token, objToUpdatePost);
+      const res = await sendRequestToUpdatePost(token, objToUpdatePost);
+      return res;
   }
 
   
