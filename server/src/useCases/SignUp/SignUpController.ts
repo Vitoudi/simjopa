@@ -4,6 +4,7 @@ import { IResponse } from "../../Request&Response/IResponse";
 import { badRequest, created, customHttpResponse, ok } from "../../utils/HttpResponses";
 import { SignUp } from "./SignUp";
 import { CreateUserDto } from "./createUserDto";
+import { imageStorage } from "../sharedDependencies";
 
 export class SignUpController {
     constructor(private signUpUseCase: SignUp) {}
@@ -13,9 +14,11 @@ export class SignUpController {
         const missingProps = this.getMissingProps(req);
         const hasMissingProps = missingProps.length > 0;
 
-        console.log("missing props ", missingProps);
+        const fileName = req.getFile()?.filename;
 
-        const imgFileName = req.getFile()?.filename;
+        if (fileName) imageStorage.saveFile(fileName, "users");
+
+        const imgFileName = fileName;
 
         if (hasMissingProps)
             return badRequest(res, `following props are missing or invalid: ${missingProps.join(", ")}`);

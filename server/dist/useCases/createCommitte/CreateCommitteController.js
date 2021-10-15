@@ -38,26 +38,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateCommitteController = void 0;
 var HttpResponses_1 = require("../../utils/HttpResponses");
+var sharedDependencies_1 = require("../sharedDependencies");
 var CreateCommitteController = /** @class */ (function () {
     function CreateCommitteController(createCommitteUseCase) {
         this.createCommitteUseCase = createCommitteUseCase;
     }
     CreateCommitteController.prototype.handle = function (req, res) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var name, imgFile, committeDto;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var name, fileName, imgRef, committeDto;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         name = req.getBody().name;
-                        imgFile = req.getFile();
+                        fileName = (_a = req.getFile()) === null || _a === void 0 ? void 0 : _a.filename;
+                        if (fileName)
+                            sharedDependencies_1.imageStorage.saveFile(fileName, "committes");
+                        imgRef = fileName;
                         if (!name)
                             return [2 /*return*/, HttpResponses_1.badRequest(res, "committee name is missing")];
-                        if (!imgFile)
+                        if (!imgRef)
                             return [2 /*return*/, HttpResponses_1.badRequest(res, "img file is missing")];
-                        committeDto = { name: name, imgRef: imgFile.filename };
-                        return [4 /*yield*/, this.createCommitteUseCase.execute({ name: name, imgRef: imgFile.filename })];
+                        committeDto = { name: name, imgRef: imgRef };
+                        return [4 /*yield*/, this.createCommitteUseCase.execute({ name: name, imgRef: imgRef })];
                     case 1:
-                        _a.sent();
+                        _b.sent();
                         return [2 /*return*/, HttpResponses_1.created(res, committeDto)];
                 }
             });

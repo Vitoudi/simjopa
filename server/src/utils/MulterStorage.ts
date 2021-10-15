@@ -1,4 +1,5 @@
 import multer from "multer";
+import path from "path";
 
 function getUniqueFileName(originalFileName: string) {
   return `${Date.now()}-${originalFileName.replace(/ /g, '')}`;
@@ -35,3 +36,16 @@ export const multerCommitteStorage = multer.diskStorage({
     callback(null, fileName);
   },
 });
+
+const publicFolder = path.resolve(__dirname, "..", "..", "public");
+
+export const multerStorage = {
+  directory: publicFolder,
+  storage: multer.diskStorage({
+  destination: publicFolder,
+  filename: (req, file, callback) => {
+    const fileName = getUniqueFileName(file.originalname);
+    callback(null, fileName);
+  },
+})
+} 

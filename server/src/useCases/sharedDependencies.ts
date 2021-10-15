@@ -5,9 +5,10 @@ import { MySqlEmailsRepository } from "../repositories/journalistsEmails/MySqlEm
 import { MySqlPostsRepository } from "../repositories/posts/MySqlPostsRepository";
 import { MySqlUsersRepository } from "../repositories/users/MySqlUserRepository";
 import { CheckIfUserHasAuthorizationToModifyPostService } from "../utils/CheckIfPostBelogsToUserService";
+import { ImageStorage } from "../utils/S3Storage";
 
 const queryBuilder = new QueryBuilder();
-
+export const imageStorage = new ImageStorage();
 export const emailsInfosRepository = new MySqlEmailsRepository(queryBuilder);
 export const committesRepository = new MySqlCommittesRepository(queryBuilder);
 export const journalistsRepository = new MySqlJournalistsRepository(queryBuilder);

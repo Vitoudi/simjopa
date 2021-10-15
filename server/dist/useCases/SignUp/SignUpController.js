@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SignUpController = void 0;
 var HttpResponses_1 = require("../../utils/HttpResponses");
+var sharedDependencies_1 = require("../sharedDependencies");
 var SignUpController = /** @class */ (function () {
     function SignUpController(signUpUseCase) {
         this.signUpUseCase = signUpUseCase;
@@ -45,15 +46,17 @@ var SignUpController = /** @class */ (function () {
     SignUpController.prototype.handle = function (req, res) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var missingProps, hasMissingProps, imgFileName, _b, name, password, email, userDto, loginResponse, msg, statusCode;
+            var missingProps, hasMissingProps, fileName, imgFileName, _b, name, password, email, userDto, loginResponse, msg, statusCode;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         console.log("handle create user called");
                         missingProps = this.getMissingProps(req);
                         hasMissingProps = missingProps.length > 0;
-                        console.log("missing props ", missingProps);
-                        imgFileName = (_a = req.getFile()) === null || _a === void 0 ? void 0 : _a.filename;
+                        fileName = (_a = req.getFile()) === null || _a === void 0 ? void 0 : _a.filename;
+                        if (fileName)
+                            sharedDependencies_1.imageStorage.saveFile(fileName, "users");
+                        imgFileName = fileName;
                         if (hasMissingProps)
                             return [2 /*return*/, HttpResponses_1.badRequest(res, "following props are missing or invalid: " + missingProps.join(", "))];
                         _b = req.getBody(), name = _b.name, password = _b.password, email = _b.email;

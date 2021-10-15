@@ -35,42 +35,55 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreatePostController = void 0;
-var HttpResponses_1 = require("../../utils/HttpResponses");
-var sharedDependencies_1 = require("../sharedDependencies");
-var CreatePostController = /** @class */ (function () {
-    function CreatePostController(createPostUseCase) {
-        this.createPostUseCase = createPostUseCase;
+exports.ImageStorage = void 0;
+var aws_sdk_1 = require("aws-sdk");
+var mime_1 = __importDefault(require("mime"));
+var path_1 = __importDefault(require("path"));
+var fs_1 = __importDefault(require("fs"));
+var ImageStorage = /** @class */ (function () {
+    function ImageStorage() {
+        this.client = new aws_sdk_1.S3({
+            region: "us-east-1",
+        });
     }
-    CreatePostController.prototype.handle = function (req, res) {
-        var _a;
+    ImageStorage.prototype.saveFile = function (fileName, dirName) {
         return __awaiter(this, void 0, void 0, function () {
-            var _b, htmlContent, title, subtitle, committeId, journalistId, fileName, imgRef, post;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var publicPath, originalPath, contentType, fileContent, res, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        _b = req.getBody(), htmlContent = _b.htmlContent, title = _b.title, subtitle = _b.subtitle;
-                        committeId = req.getBodyPropAsNumber("committeId");
-                        journalistId = req.getBodyPropAsNumber("journalistId");
-                        fileName = (_a = req.getFile()) === null || _a === void 0 ? void 0 : _a.filename;
-                        if (fileName)
-                            sharedDependencies_1.imageStorage.saveFile(fileName, "posts");
-                        imgRef = fileName || null;
-                        if (!htmlContent)
-                            return [2 /*return*/, HttpResponses_1.badRequest(res, "htmlContent missing")];
-                        if (isNaN(journalistId))
-                            return [2 /*return*/, HttpResponses_1.badRequest(res, "journalistId must be a valid number")];
-                        if (isNaN(committeId))
-                            return [2 /*return*/, HttpResponses_1.badRequest(res, "committeId must be a valid number")];
-                        return [4 /*yield*/, this.createPostUseCase.execute({ htmlContent: htmlContent, committeId: committeId, journalistId: journalistId, imgRef: imgRef, title: title, subtitle: subtitle })];
+                        _a.trys.push([0, 3, , 4]);
+                        publicPath = path_1.default.resolve(__dirname, "..", "..", "public", "assets", dirName);
+                        originalPath = path_1.default.resolve(publicPath, fileName);
+                        contentType = mime_1.default.getType(originalPath);
+                        if (!contentType)
+                            throw new Error("file not found");
+                        return [4 /*yield*/, fs_1.default.promises.readFile(originalPath)];
                     case 1:
-                        post = _c.sent();
-                        return [2 /*return*/, HttpResponses_1.ok(res, post)];
+                        fileContent = _a.sent();
+                        return [4 /*yield*/, this.client.putObject({
+                                Bucket: "sinuma-" + dirName,
+                                ACL: "public-read",
+                                Body: fileContent,
+                                ContentType: contentType,
+                                Key: fileName
+                            }).promise()];
+                    case 2:
+                        res = _a.sent();
+                        console.log("aws res: ", res);
+                        return [2 /*return*/, { success: true, fileName: fileName }];
+                    case 3:
+                        err_1 = _a.sent();
+                        return [2 /*return*/, { success: false }];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    return CreatePostController;
+    return ImageStorage;
 }());
-exports.CreatePostController = CreatePostController;
+exports.ImageStorage = ImageStorage;

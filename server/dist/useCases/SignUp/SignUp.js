@@ -89,25 +89,16 @@ var SignUp = /** @class */ (function () {
     SignUp.prototype.createUser = function (_a) {
         var password = _a.password, imgFileName = _a.imgFileName, name = _a.name, email = _a.email;
         return __awaiter(this, void 0, void 0, function () {
-            var role, hashPassword, imgRef, _b, user;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var role, hashPassword, imgRef, user;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0: return [4 /*yield*/, this.getUserRole(email)];
                     case 1:
-                        role = _c.sent();
+                        role = _b.sent();
                         return [4 /*yield*/, this.passwordEncryptor.encrypt(password)];
                     case 2:
-                        hashPassword = _c.sent();
-                        if (!imgFileName) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.getImgRefFor(imgFileName)];
-                    case 3:
-                        _b = _c.sent();
-                        return [3 /*break*/, 5];
-                    case 4:
-                        _b = null;
-                        _c.label = 5;
-                    case 5:
-                        imgRef = _b;
+                        hashPassword = _b.sent();
+                        imgRef = imgFileName !== null && imgFileName !== void 0 ? imgFileName : null;
                         user = new User_1.User(name, email, hashPassword, role, imgRef);
                         return [2 /*return*/, user];
                 }

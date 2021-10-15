@@ -3,8 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.multerCommitteStorage = exports.multerPostsStorage = exports.multerUserStorage = void 0;
+exports.multerStorage = exports.multerCommitteStorage = exports.multerPostsStorage = exports.multerUserStorage = void 0;
 var multer_1 = __importDefault(require("multer"));
+var path_1 = __importDefault(require("path"));
 function getUniqueFileName(originalFileName) {
     return Date.now() + "-" + originalFileName.replace(/ /g, '');
 }
@@ -37,3 +38,14 @@ exports.multerCommitteStorage = multer_1.default.diskStorage({
         callback(null, fileName);
     },
 });
+var publicFolder = path_1.default.resolve(__dirname, "..", "..", "public");
+exports.multerStorage = {
+    directory: publicFolder,
+    storage: multer_1.default.diskStorage({
+        destination: publicFolder,
+        filename: function (req, file, callback) {
+            var fileName = getUniqueFileName(file.originalname);
+            callback(null, fileName);
+        },
+    })
+};

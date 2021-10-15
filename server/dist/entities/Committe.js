@@ -22,14 +22,10 @@ var Committe = /** @class */ (function (_super) {
     function Committe(name, imgRef, id) {
         var _this = _super.call(this) || this;
         _this.name = name;
+        _this.imgRef = imgRef;
         _this.id = id;
-        _this.imgRef = Committe.getImgRefForFileName(imgRef);
         return _this;
     }
-    Committe.getImgRefForFileName = function (imgFileName) {
-        var path = "/assets/committes";
-        return path + "/" + imgFileName;
-    };
     return Committe;
 }(GenericEntity_1.GenericEntity));
 exports.Committe = Committe;

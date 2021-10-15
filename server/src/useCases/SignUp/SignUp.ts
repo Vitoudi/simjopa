@@ -43,7 +43,7 @@ export class SignUp {
   private async createUser({ password, imgFileName, name, email }: CreateUserDto) {
     const role = await this.getUserRole(email);
     const hashPassword = await this.passwordEncryptor.encrypt(password);
-    const imgRef = imgFileName ? await this.getImgRefFor(imgFileName) : null;
+    const imgRef = imgFileName ?? null;
     const user = new User(name, email, hashPassword, role, imgRef);
 
     return user;

@@ -3,6 +3,7 @@ import { badRequest, ok } from "../../utils/HttpResponses";
 import { CreatePost } from "./CreatePost";
 import { IRequest } from "../../Request&Response/IRequest";
 import { IResponse } from "../../Request&Response/IResponse";
+import { imageStorage } from "../sharedDependencies"
 
 export class CreatePostController {
     constructor(private createPostUseCase: CreatePost) {}
@@ -11,8 +12,11 @@ export class CreatePostController {
         const { htmlContent, title, subtitle } = req.getBody();
         const committeId = req.getBodyPropAsNumber("committeId");
         const journalistId = req.getBodyPropAsNumber("journalistId");
+        const fileName = req.getFile()?.filename;
 
-        const imgRef = req.getFile()?.filename || null;
+        if (fileName) imageStorage.saveFile(fileName, "posts");
+
+        const imgRef = fileName || null;
 
         if (!htmlContent)
             return badRequest(res, "htmlContent missing");
