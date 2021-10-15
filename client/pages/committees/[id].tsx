@@ -10,6 +10,7 @@ import Image from "next/image";
 import styles from "./CommitteesPage.module.css";
 import PostsContainer from '../../sheredComponents/postsContainer/PostsContainer';
 import { getCommitteeImageFullPath } from '../../utils/db/images';
+import Head from "next/head";
 
 export async function getStaticPaths() {
   const committees = await sendRequestToGetCommittees();
@@ -45,6 +46,10 @@ export default function CommitteePage({ committee }: Props): ReactElement {
 
     return (
       <div>
+        <Head>
+          <title>{`${committee?.name || "Comitê"} - AC Sinuma`}</title>
+          <meta name="description" content="Página de comitê" />
+        </Head>
         <div className={styles["banner-container"]}>
           <Image
             src={imgPath}
@@ -58,7 +63,7 @@ export default function CommitteePage({ committee }: Props): ReactElement {
         </div>
 
         <div className={styles["journalists-container-wrapper"]}>
-          <h2 style={{marginBottom: "1rem"}}>Jornalistas:</h2>
+          <h2 style={{ marginBottom: "1rem" }}>Jornalistas:</h2>
           <div className={styles["journalists-container"]}>
             {journalists.map((journalist) => (
               <JournalistDisplay key={journalist.id} journalist={journalist} />

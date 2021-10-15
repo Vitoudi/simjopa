@@ -14,6 +14,7 @@ import PostImage from './components/PostImage';
 import styles from "./postPage.module.css";
 import { FaTrash as DeleteIcon } from "react-icons/fa";
 import { FaPen as UpdateIcon } from "react-icons/fa";
+import Head from 'next/head';
 
 export async function getStaticPaths() {
   const posts = await sendRequestToGetPosts();
@@ -75,6 +76,10 @@ export default function PostPage({ post }: Props): ReactElement {
 
     return (
       <div className={styles["post-page"]}>
+        <Head>
+          <title>{`${post?.title || "Post"} - AC Sinuma`}</title>
+          <meta name="description" content="Notícia" />
+        </Head>
         <PostHeader
           journalistId={journalistId}
           subtitle={subtitle}

@@ -6,9 +6,9 @@ import {
 import CenteredPageContent from "../../sheredComponents/CenteredPageContent/CenteredPageContent";
 import Input from "../../sheredComponents/Input/Input";
 import JournalistDisplay from "../../sheredComponents/JournalistDisplay/JournalistDisplay";
-import Post from "../../sheredComponents/Post/Post";
 import PostsContainer from "../../sheredComponents/postsContainer/PostsContainer";
 import styles from "./SearchPage.module.css";
+import Head from "next/head";
 
 interface Props {}
 
@@ -25,6 +25,10 @@ export default function SearchPage({}: Props): ReactElement {
 
   return (
     <div className={styles["page"]}>
+      <Head>
+        <title>{`Pesquisar - AC Sinuma`}</title>
+        <meta name="description" content="Página de pesquisa" />
+      </Head>
       <h1 className={styles["title"]}>Pesquisar:</h1>
       <Input
         placeholder="Pesquisar..."
@@ -34,7 +38,9 @@ export default function SearchPage({}: Props): ReactElement {
       />
       {results && (
         <div className={styles["results"]}>
-          {results.posts && <PostsContainer title="Posts:" postsList={results.posts}/>}
+          {results.posts && (
+            <PostsContainer title="Posts:" postsList={results.posts} />
+          )}
           <div>
             {results.journalists?.map((journalist) => (
               <JournalistDisplay key={journalist.id} journalist={journalist} />

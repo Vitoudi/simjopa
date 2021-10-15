@@ -4,6 +4,7 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import Post from '../../sheredComponents/Post/Post';
 import PostsContainer from '../../sheredComponents/postsContainer/PostsContainer';
 import { GetPostDto, sendRequestToGetPosts } from '../../utils/db/posts';
+import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const hot = context.query["hot"];
@@ -58,8 +59,12 @@ export default function PostsPage({ shouldLoadHotPosts }: Props): ReactElement {
     } 
 
     return (
-        <div>
-            <PostsContainer postsList={posts} title="Todos:" />
-        </div>
-    )
+      <div>
+        <Head>
+          <title>{`Posts - AC Sinuma`}</title>
+          <meta name="description" content="Notícia" />
+        </Head>
+        <PostsContainer postsList={posts} title="Todos:" />
+      </div>
+    );
 }

@@ -7,6 +7,7 @@ import { GetPostDto, getPostsByJournalist } from '../../utils/db/posts';
 import Post from '../../sheredComponents/Post/Post';
 import { getUserImageFullPath } from '../../utils/db/images';
 import LoaderSpinner from '../../sheredComponents/LoaderSpinner/LoaderSpinner';
+import Head from "next/head";
 
 export const getStaticPaths: GetStaticPaths =  async () => {
   const journalists = await getJournalists();
@@ -52,6 +53,10 @@ export default function JournalistPage({ journalist }: Props): ReactElement {
 
     return (
       <div style={{ padding: "3rem", textAlign: "center" }}>
+        <Head>
+          <title>{`${journalist?.name || "Jornalista"} - AC Sinuma`}</title>
+          <meta name="description" content="Página de jornalista" />
+        </Head>
         <h1 style={{ marginBottom: "1rem" }}>{journalist?.name}</h1>
         <RoundImage src={imgUrl} size={120} alt="journalist image" />
         <div style={{ marginTop: "2.5rem", display: "grid" }}>
@@ -71,7 +76,7 @@ export default function JournalistPage({ journalist }: Props): ReactElement {
               ))}
             </section>
           ) : (
-            <div style={{marginTop: "3rem"}}>
+            <div style={{ marginTop: "3rem" }}>
               <LoaderSpinner centralized={true} />
             </div>
           )}

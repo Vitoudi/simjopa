@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import CommitteeDisplay from '../../sheredComponents/CommitteeDisplay/CommitteeDisplay';
 import { GetCommitteeDto, sendRequestToGetCommittees } from '../../utils/db/committees';
 import styles from "./CommitteesPage.module.css";
+import Head from "next/head";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const committees = await sendRequestToGetCommittees();
@@ -21,11 +22,17 @@ export default function CommitteesPage({ committees }: Props): ReactElement {
     console.log(committees);
     return (
       <>
-      {committees && <div className={styles['committees-container']}>
-        {committees.map((committee) => (
-            <CommitteeDisplay key={committee.id} committee={committee} />
-        ))}
-      </div>}
+        <Head>
+          <title>{`Comitês - AC Sinuma`}</title>
+          <meta name="description" content="Página de comitês" />
+        </Head>
+        {committees && (
+          <div className={styles["committees-container"]}>
+            {committees.map((committee) => (
+              <CommitteeDisplay key={committee.id} committee={committee} />
+            ))}
+          </div>
+        )}
       </>
     );
 }
