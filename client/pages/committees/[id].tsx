@@ -7,9 +7,9 @@ import { GetJournalistDto } from "../../utils/db/journalists"
 import JournalistDisplay from '../../sheredComponents/JournalistDisplay/JournalistDisplay';
 import { GetPostDto, sendRequestToGetPosts } from '../../utils/db/posts';
 import Image from "next/image";
-import { getImageFullPath } from '../../utils/db/images';
 import styles from "./CommitteesPage.module.css";
 import PostsContainer from '../../sheredComponents/postsContainer/PostsContainer';
+import { getCommitteeImageFullPath } from '../../utils/db/images';
 
 export async function getStaticPaths() {
   const committees = await sendRequestToGetCommittees();
@@ -41,7 +41,7 @@ export default function CommitteePage({ committee }: Props): ReactElement {
     sendRequestToGetPosts({committeId: committee.id}).then(posts => setPosts(posts));
   }, [])
 
-  const imgPath = getImageFullPath(committee.imgRef);
+  const imgPath = getCommitteeImageFullPath(committee.imgRef);
 
     return (
       <div>
