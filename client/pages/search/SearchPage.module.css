@@ -1,0 +1,27 @@
+.page {
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    padding-top: 2.5rem;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.results {
+    display: grid;
+    justify-content: center;
+}
+
+.search-bar {
+    width: 35vw;
+    padding: 1rem 2rem;
+}
+
+@media (max-width: 900px) {
+    .search-bar {
+    width: 80vw;
+}
+}

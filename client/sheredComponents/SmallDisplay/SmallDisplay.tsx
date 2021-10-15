@@ -12,7 +12,7 @@ interface Props {
 
 export default function SmallDisplay({ text, imgPath, href }: Props): ReactElement {
     return (
-      <RoundedBox additionalStyles={{width: "250px"}}>
+      <RoundedBox additionalStyles={{width: "250px", overflow: "unset"}}>
        <Link href={href} passHref>
           <div className={styles["small-display"]}>
             {imgPath && (

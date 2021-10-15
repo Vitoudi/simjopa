@@ -16,12 +16,16 @@ const EditorState = dynamic(
   { ssr: false }
 );
 import { AuthContext } from "./auth/AuthContext";
-import { getJournalistByUserId } from "../utils/db/journalists";
+import { getJournalistById, getJournalistByUserId, GetJournalistDto } from "../utils/db/journalists";
 import { createPost as sendRequestToCreatePost, CreatePostDto, GetPostDto, updatePost as sendRequestToUpdatePost, UpdatePostDto } from "../utils/db/posts";
-import { LoginResponse } from "../utils/db/users";
+import { LoginResponse, UserRole } from "../utils/db/users";
 // import htmlToDraft from "html-to-draftjs";
 
 export type PostCreationMode = "update" | "create";
+
+export interface PostCreationAdditionalInfoForAdmins {
+  journalistId: number;
+}
 
 interface PostCreationInputs {
   title: string;
@@ -33,7 +37,7 @@ export interface PostCreationProps {
   setEditorState: React.Dispatch<React.SetStateAction<any>>;
   postCreationInputs: PostCreationInputs;
   setInputValueByName: (inputValueName: string, value: any) => void;
-  submitPost: () => Promise<LoginResponse>;
+  submitPost: (creationInfoForAdmins?: PostCreationAdditionalInfoForAdmins) => Promise<LoginResponse>;
   addExistingPostForUpdate: (post: GetPostDto) => void;
   editorState: any;
   mode: PostCreationMode;
@@ -66,9 +70,9 @@ export default function PostCreationContextProvider({
     });
   }
 
-  async function submitPost() {
+  async function submitPost(creationInfoForAdmins?: PostCreationAdditionalInfoForAdmins) {
     if (mode === "create") {
-      const res = await createPost()
+      const res = await createPost(creationInfoForAdmins)
       return res;
     }
     
@@ -111,7 +115,9 @@ export default function PostCreationContextProvider({
     setEditorState(editorState);
   }
 
-  async function createPost(): Promise<LoginResponse> {
+  async function createPost(
+    creationInfoForAdmins?: PostCreationAdditionalInfoForAdmins
+  ): Promise<LoginResponse> {
     const token = auth.getUserAuthToken();
     const user = auth.user;
 
@@ -121,9 +127,20 @@ export default function PostCreationContextProvider({
         msg: "É preciso estar autenticado para criar um post",
       };
 
-    const journalist = await getJournalistByUserId(user.id);
+    let journalist: GetJournalistDto | null = null; 
 
-    if (!journalist)
+    const isAdmin = user.role >= UserRole.ADMIN;
+
+    if (isAdmin) {
+      if (!creationInfoForAdmins)
+        return {success: false, msg: "Nenhum jornalista foi selecionado"};
+
+      journalist = await getJournalistById(creationInfoForAdmins.journalistId);
+    } else {
+      journalist = await getJournalistByUserId(user.id);
+    }
+
+    if (!journalist || !isAdmin)
       return {
         success: false,
         msg: "Você não possui autorização para criar um post",
@@ -132,9 +149,9 @@ export default function PostCreationContextProvider({
     const { title, subtitle, file } = postCreationInputs;
     const htmlContent = getPostHtmlContent();
 
-    const postInfo = {
+    const postInfo: CreatePostDto = {
       title,
-      journalistId: journalist.id,
+      journalistId: creationInfoForAdmins?.journalistId || journalist.id,
       committeId: journalist.committeId,
       htmlContent,
       imgFile: file,

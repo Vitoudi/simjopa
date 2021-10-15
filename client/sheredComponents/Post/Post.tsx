@@ -34,24 +34,20 @@ export default function Post({ post }: Props): ReactElement {
 
     return (
       <Link href={`/posts/${id}`} passHref>
-        <article className={styles["post"]}>
-          <RoundedBox
-          additionalStyles={{
-            paddingBottom: "1rem",
-            height: "320px",
-            minWidth: "280px",
-            maxWidth: "330px"
-         }}>
-            <Image
-              placeholder="blur"
-              blurDataURL={imgUrl}
-              className={styles["image"]}
-              src={imgUrl}
-              alt="post image"
-              width="330px"
-              height="200px"
-              objectFit="cover"
-            ></Image>
+        <article className={styles["post-container"]}>
+          <RoundedBox className={styles["post"]}>
+            <div className={styles["image-container"]}>
+              <Image
+                placeholder="blur"
+                blurDataURL={imgUrl}
+                className={styles["image"]}
+                src={imgUrl}
+                alt="post image"
+                layout="fill"
+                objectFit="cover"
+              ></Image>
+            </div>
+
             <div className={styles["info-area"]}>
               <h3 className={styles["title"]}>{title}</h3>
               <div>

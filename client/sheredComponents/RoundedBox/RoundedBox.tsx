@@ -3,14 +3,18 @@ import styles from "./RoundedBox.module.css";
 
 interface Props {
   additionalStyles?: CSSProperties;
+  className?: string;
 }
 
-export default function RoundedBox({ children, additionalStyles }: PropsWithChildren<Props>): ReactElement {
+export default function RoundedBox({ children, additionalStyles, className }: PropsWithChildren<Props>): ReactElement {
     return (
-        <div style={{
-            ...additionalStyles
-        }} className={styles["rounded-box"]}>
-            {children}
-        </div>
-    )
+      <div
+        style={{
+          ...additionalStyles,
+        }}
+        className={`${styles["rounded-box"]} ${className}`}
+      >
+        {children}
+      </div>
+    );
 }

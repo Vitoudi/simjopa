@@ -15,3 +15,17 @@
     padding: 0 2rem;
     
 }
+
+@media (max-width: 600px) {
+    .post-container-wrapper {
+    padding: 1rem 0;
+    
+}
+
+.post-container {
+    margin-top: 1rem;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+}
+}

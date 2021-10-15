@@ -1,6 +1,6 @@
-import React, { ChangeEvent, ReactElement, useState } from 'react'
+import React, { ChangeEvent, PropsWithChildren, ReactElement, useState } from 'react'
 import Input from '../../../../sheredComponents/Input/Input';
-import { PostCreationProps } from '../../../../globalContext/PostCreationContext'
+import { PostCreationAdditionalInfoForAdmins, PostCreationProps } from '../../../../globalContext/PostCreationContext'
 import PostContentEditor from '../PostContentEditor/PostContentEditor';
 import Button from '../../../../sheredComponents/Button/Button';
 import styles from "./FormToCreatePost.module.css";
@@ -8,9 +8,10 @@ import CenteredPageContent from '../../../../sheredComponents/CenteredPageConten
 
 interface Props {
     postCreationProps: PostCreationProps;
+    creationInfoForAdmins?: PostCreationAdditionalInfoForAdmins;
 }
 
-export default function FormToCreatePost({ postCreationProps }: Props): ReactElement {
+export default function FormToCreatePost({ postCreationProps, children, creationInfoForAdmins }: PropsWithChildren<Props>): ReactElement {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
@@ -40,8 +41,9 @@ export default function FormToCreatePost({ postCreationProps }: Props): ReactEle
       if (!file) return setErrorMsg("Adicione um aequivo de imagem para o post");
       if (title.length > MAX_LENGTH_FOR_TITLE) return setErrorMsg(`O título é muito grande (limite de ${MAX_LENGTH_FOR_TITLE} caracteres)`);
       if (title.length > MAX_LENGTH_FOR_TITLE) return setErrorMsg(`O resumo é muito grande (limite de ${MAX_LENGTH_FOR_SUBTITLE} caracteres)`);
+      if (creationInfoForAdmins && !creationInfoForAdmins.journalistId) return setErrorMsg("Selecione um jornalista");
 
-      const res = await submitPost();
+      const res = await submitPost(creationInfoForAdmins);
       if (!res.success) return setErrorMsg(res.msg);
 
       setSuccessMsg(res.msg);
@@ -98,6 +100,7 @@ export default function FormToCreatePost({ postCreationProps }: Props): ReactEle
               {successMsg}
             </p>
           )}
+          {children}
           <Button additionalStyles={{ width: "46vw" }} onClick={handlePostSubmit}>
             {mode === "create" ? "Criar" : "Atualizar"}
           </Button>

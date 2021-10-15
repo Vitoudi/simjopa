@@ -7,6 +7,8 @@ import CenteredPageContent from "../../sheredComponents/CenteredPageContent/Cent
 import Input from "../../sheredComponents/Input/Input";
 import JournalistDisplay from "../../sheredComponents/JournalistDisplay/JournalistDisplay";
 import Post from "../../sheredComponents/Post/Post";
+import PostsContainer from "../../sheredComponents/postsContainer/PostsContainer";
+import styles from "./SearchPage.module.css";
 
 interface Props {}
 
@@ -22,20 +24,17 @@ export default function SearchPage({}: Props): ReactElement {
   }, [searchValue]);
 
   return (
-    <CenteredPageContent>
-      <h1>Pesquisar:</h1>
+    <div className={styles["page"]}>
+      <h1 className={styles["title"]}>Pesquisar:</h1>
       <Input
         placeholder="Pesquisar..."
         value={searchValue}
         onValueChange={setSearchValue}
+        className={styles["search-bar"]}
       />
       {results && (
-        <div>
-          <div>
-            {results.posts?.map((post) => (
-              <Post key={post.id} post={post} />
-            ))}
-          </div>
+        <div className={styles["results"]}>
+          {results.posts && <PostsContainer title="Posts:" postsList={results.posts}/>}
           <div>
             {results.journalists?.map((journalist) => (
               <JournalistDisplay key={journalist.id} journalist={journalist} />
@@ -43,6 +42,6 @@ export default function SearchPage({}: Props): ReactElement {
           </div>
         </div>
       )}
-    </CenteredPageContent>
+    </div>
   );
 }
