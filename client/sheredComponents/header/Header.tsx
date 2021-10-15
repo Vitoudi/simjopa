@@ -47,7 +47,7 @@ export default function Header({}: Props): ReactElement {
 
           <nav className={styles["nav"]}>
             <HeaderIcon onClick={() => handleRedirect("/search")}>
-              <SearchIcon  size={18}/>
+              <SearchIcon size={18} />
             </HeaderIcon>
 
             <HeaderIcon onClick={() => handleRedirect("/committees")}>
@@ -66,11 +66,13 @@ export default function Header({}: Props): ReactElement {
             )}
           </nav>
           {isAuthenticated ? (
-            <RoundImage
-              src={getUserImageFullPath(user?.imgRef)}
-              alt="user"
-              size={35}
-            />
+              <HeaderIcon onClick={() => handleRedirect("/profile")}>
+                <RoundImage
+                  src={getUserImageFullPath(user?.imgRef)}
+                  alt="user"
+                  size={35}
+                />
+              </HeaderIcon>
           ) : (
             <Button onClick={() => handleRedirect("/login")}>Entrar</Button>
           )}

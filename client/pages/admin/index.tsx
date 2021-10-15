@@ -10,6 +10,8 @@ import { GetJournalistDto, getJournalists } from "../../utils/db/journalists";
 import styles from "./AdminPage.module.css"
 import FormToCreatePost from "../create/components/FormToCreatePost/FormToCreatePost";
 import Button from "../../sheredComponents/Button/Button";
+import AuthProtection from "../../hooks/AuthProtection";
+import { UserRole } from "../../utils/db/users";
 
 
 export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
@@ -47,29 +49,39 @@ export default function AdminPage({ journalists }: Props): ReactElement {
   }
 
   return (
-    <div className={styles["page"]}>
-      <div className={styles["create-committee-area"]}>
-        <h2>Criar comitê:</h2>
-        <Input
-          placeholder="nome"
-          value={committeeName}
-          onValueChange={setCommitteeName}
-        />
-        <FileInput onNewFileSelected={setCommitteeImgFile}></FileInput>
+    <AuthProtection redirectUrl="/" minimumRoleRequired={UserRole.ADMIN} >
+      <div className={styles["page"]}>
+        <div className={styles["create-committee-area"]}>
+          <h2>Criar comitê:</h2>
+          <Input
+            placeholder="nome"
+            value={committeeName}
+            onValueChange={setCommitteeName}
+          />
+          <FileInput onNewFileSelected={setCommitteeImgFile}></FileInput>
 
-        <Button onClick={handleSubmit}>Criar</Button>
+          <Button onClick={handleSubmit}>Criar</Button>
+        </div>
+        <div>
+          <FormToCreatePost
+            postCreationProps={postCreationProps}
+            creationInfoForAdmins={{
+              journalistId,
+            }}
+          >
+            <SelectInput
+              placeholder="Jornalista"
+              onValueChange={handleJournalistChange}
+            >
+              {journalists.map((journalist) => (
+                <option key={journalist.id} value={journalist.id}>
+                  {journalist.name}
+                </option>
+              ))}
+            </SelectInput>
+          </FormToCreatePost>
+        </div>
       </div>
-      <div>
-        <FormToCreatePost postCreationProps={postCreationProps} creationInfoForAdmins={{
-          journalistId
-        }}>
-          <SelectInput placeholder="Jornalista" onValueChange={handleJournalistChange}>
-          {journalists.map(journalist => (
-            <option key={journalist.id} value={journalist.id}>{journalist.name}</option>
-          ))}
-          </SelectInput>
-        </FormToCreatePost>
-      </div>
-    </div>
+    </AuthProtection>
   );
 }

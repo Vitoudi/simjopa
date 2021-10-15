@@ -1,0 +1,16 @@
+.page {
+    display: grid;
+    justify-content: center;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.options {
+    margin: 2rem 0;
+    
+}
+
+.options-item {
+    font-size: 1.1rem;
+    cursor: pointer;
+}
