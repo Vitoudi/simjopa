@@ -12,6 +12,8 @@ import PostContent from './components/PostContent';
 import PostHeader from './components/PostHeader';
 import PostImage from './components/PostImage';
 import styles from "./postPage.module.css";
+import { FaTrash as DeleteIcon } from "react-icons/fa";
+import { FaPen as UpdateIcon } from "react-icons/fa";
 
 export async function getStaticPaths() {
   const posts = await sendRequestToGetPosts();
@@ -73,12 +75,6 @@ export default function PostPage({ post }: Props): ReactElement {
 
     return (
       <div className={styles["post-page"]}>
-        {currentUserIsThePostOwner && (
-          <div>
-            <div onClick={handleDelete}>Deletar</div>
-            <div onClick={handleRedirectToPostUpdate}>Atualizar</div>
-          </div>
-        )}
         <PostHeader
           journalistId={journalistId}
           subtitle={subtitle}
@@ -86,6 +82,19 @@ export default function PostPage({ post }: Props): ReactElement {
         >
           {title}
         </PostHeader>
+        {currentUserIsThePostOwner && (
+          <div className={styles["editor-area"]}>
+            <div onClick={handleRedirectToPostUpdate}>
+              <UpdateIcon />
+              <div style={{ color: "darkslateblue" }}>Atualizar</div>
+            </div>
+
+            <div onClick={handleDelete}>
+              <DeleteIcon colorInterpolation="red" />
+              <div style={{ color: "darkred" }}>Deletar</div>
+            </div>
+          </div>
+        )}
         <PostImage src={imgUrl} />
         <PostContent htmlContent={htmlContent} />
       </div>

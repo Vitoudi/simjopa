@@ -136,15 +136,17 @@ export default function PostCreationContextProvider({
         return {success: false, msg: "Nenhum jornalista foi selecionado"};
 
       journalist = await getJournalistById(creationInfoForAdmins.journalistId);
+      if (!journalist) return {success: false, msg: "Jornalista não encontrado"}
     } else {
       journalist = await getJournalistByUserId(user.id);
+      if (!journalist)
+        return {
+          success: false,
+          msg: "Você não possui autorização para criar um post",
+        };
     }
 
-    if (!journalist || !isAdmin)
-      return {
-        success: false,
-        msg: "Você não possui autorização para criar um post",
-      };
+
 
     const { title, subtitle, file } = postCreationInputs;
     const htmlContent = getPostHtmlContent();

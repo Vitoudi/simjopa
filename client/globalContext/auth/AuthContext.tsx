@@ -15,6 +15,7 @@ export interface AuthContextData {
   getUserAuthToken: () => string | null;
   signUpUser: (info: CreateUserDto) => Promise<LoginResponse>;
   signUpJournalist: (info: CreateJournalistDto) => Promise<LoginResponse>;
+  logon: () => void;
 }
 
 
@@ -85,10 +86,14 @@ export default function AuthContextProvider({ children }: PropsWithChildren<{}>)
         } catch(err) {
             const errMsg = getErrorMsgFromErrorObj(err);
             return {success: false, msg: errMsg}
-        }
-        
+        }  
+    }
 
-        
+    function logon() {
+        if (!window) return;
+        localStorage.removeItem(AUTH_TOKEN_STORAGE_NAME);
+        setUser(null);
+        setAuthStatus("unauthenticated");
     }
     
     async function signUpJournalist(info: CreateJournalistDto): Promise<LoginResponse> {
@@ -128,7 +133,7 @@ export default function AuthContextProvider({ children }: PropsWithChildren<{}>)
     }, [user])
 
     return (
-        <AuthContext.Provider value={ { user, authStatus, loginUser, getUserAuthToken, signUpUser, signUpJournalist } }>
+        <AuthContext.Provider value={ { user, logon, authStatus, loginUser, getUserAuthToken, signUpUser, signUpJournalist } }>
             {children}
         </AuthContext.Provider>
     )

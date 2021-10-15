@@ -29,6 +29,16 @@
     font-size: 1.3rem;
 }
 
+.editor-area {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    cursor: pointer;
+
+}
+
 .content {
     width: 70vw;
     margin: 2rem;
@@ -43,3 +53,22 @@
     margin: 2rem 0;
     
 }
+
+/*
+import { FaTrash as DeleteIcon } from "react-icons/fa";
+import { FaPen as UpdateIcon } from "react-icons/fa";
+
+{currentUserIsThePostOwner && (
+          <div className={styles["editor-area"]}>
+            <div>
+              <UpdateIcon />
+              <div onClick={handleRedirectToPostUpdate}>Atualizar</div>
+            </div>
+            
+            <div>
+              <DeleteIcon colorInterpolation="red" />
+              <div onClick={handleDelete}>Deletar</div>
+            </div>
+          </div>
+        )}
+*/

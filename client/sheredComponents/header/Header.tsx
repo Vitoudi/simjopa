@@ -10,6 +10,8 @@ import Button from '../Button/Button';
 import RoundImage from '../RoundImage/RoundImage';
 import HeaderIcon from './components/HeaderIcon';
 import styles from "./header.module.css";
+import { ImSearch as SearchIcon } from "react-icons/im";
+
 
 interface Props {
     
@@ -45,7 +47,7 @@ export default function Header({}: Props): ReactElement {
 
           <nav className={styles["nav"]}>
             <HeaderIcon onClick={() => handleRedirect("/search")}>
-              Pesquisar
+              <SearchIcon  size={18}/>
             </HeaderIcon>
 
             <HeaderIcon onClick={() => handleRedirect("/committees")}>
