@@ -5,6 +5,7 @@ import styles from "../Post/post.module.css";
 import Link from "next/link"
 import { GetPostDto } from '../../utils/db/posts';
 import RoundedBox from '../RoundedBox/RoundedBox';
+import { getPostImageFullPath } from '../../utils/db/images';
 
 interface Props {
    post: GetPostDto; 
@@ -12,7 +13,7 @@ interface Props {
 
 export default function Post({ post }: Props): ReactElement {
     const {imgRef, id} = post;
-    const imgUrl = API_URL + "/assets/posts/" + imgRef;
+    const imgUrl = getPostImageFullPath(imgRef || undefined);
     const title = getFormattedText(post.title, 65);
     const subtitle = getFormattedSubtitle();
 

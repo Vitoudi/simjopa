@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect } from "react";
-import { getImageFullPath } from "../../utils/db/images";
+import { getCommitteeImageFullPath } from "../../utils/db/images";
 import SmallDisplay from "../SmallDisplay/SmallDisplay";
 import { GetCommitteeDto } from "../../utils/db/committees";
 
@@ -9,7 +9,7 @@ interface Props {
 
 export default function CommitteesSmallDisplay({committee }: Props): ReactElement {
   const { imgRef, name, id } = committee;
-  const imgPath = imgRef && getImageFullPath(imgRef);
+  const imgPath = imgRef && getCommitteeImageFullPath(imgRef);
 
   return (
     <SmallDisplay
