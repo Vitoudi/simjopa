@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SignUpJournalistController = void 0;
 var HttpResponses_1 = require("../../utils/HttpResponses");
+var sharedDependencies_1 = require("../sharedDependencies");
 var SignUpJournalistController = /** @class */ (function () {
     function SignUpJournalistController(signUpJournalistUseCase) {
         this.signUpJournalistUseCase = signUpJournalistUseCase;
@@ -45,13 +46,16 @@ var SignUpJournalistController = /** @class */ (function () {
     SignUpJournalistController.prototype.handle = function (req, res) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var committeId, _b, password, name, email, imgFileName, journalistDtoObj, journalistSignUpResponse, msg, statusCode;
+            var committeId, _b, password, name, email, fileName, imgFileName, journalistDtoObj, journalistSignUpResponse, msg, statusCode;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         committeId = req.getBodyPropAsNumber("committeId");
                         _b = req.getBody(), password = _b.password, name = _b.name, email = _b.email;
-                        imgFileName = (_a = req.getFile()) === null || _a === void 0 ? void 0 : _a.filename;
+                        fileName = (_a = req.getFile()) === null || _a === void 0 ? void 0 : _a.filename;
+                        if (fileName)
+                            sharedDependencies_1.imageStorage.saveFile(fileName, "users");
+                        imgFileName = fileName;
                         journalistDtoObj = { committeId: committeId, password: password, imgFileName: imgFileName, name: name, email: email };
                         return [4 /*yield*/, this.signUpJournalistUseCase.execute(journalistDtoObj)];
                     case 1:
