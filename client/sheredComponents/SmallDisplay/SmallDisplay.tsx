@@ -17,6 +17,7 @@ export default function SmallDisplay({ text, imgPath, href }: Props): ReactEleme
           <div className={styles["small-display"]}>
             {imgPath && (
               <Image
+              className={styles["image"]}
                 src={imgPath}
                 width={70}
                 height={70}
