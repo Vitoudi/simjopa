@@ -1,10 +1,6 @@
 import React, { ReactElement, useEffect } from 'react'
 import { GetJournalistDto } from '../../utils/db/journalists'
-import Image from "next/image"
-import { getImageFullPath } from '../../utils/db/images';
-import styles from "./JournalistDisplay.module.css";
-import RoundedBox from '../RoundedBox/RoundedBox';
-import Link from "next/link"
+import { getUserImageFullPath } from '../../utils/db/images';
 import SmallDisplay from '../SmallDisplay/SmallDisplay';
 
 interface Props {
@@ -13,7 +9,7 @@ interface Props {
 
 export default function JournalistDisplay({ journalist }: Props): ReactElement {
     const { imgRef, name, id } = journalist;
-    const imgPath = imgRef && getImageFullPath(imgRef);
+    const imgPath = imgRef && getUserImageFullPath(imgRef);
 
     useEffect(() => console.log(imgPath), [imgPath]);
 
