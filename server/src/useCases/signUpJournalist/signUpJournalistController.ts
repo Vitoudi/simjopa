@@ -5,6 +5,7 @@ import fs from "fs";
 import { badRequest, created, customHttpResponse, internalServerError } from "../../utils/HttpResponses";
 import { IRequest } from "../../Request&Response/IRequest";
 import { IResponse } from "../../Request&Response/IResponse";
+import { imageStorage } from "../sharedDependencies";
 
 export class SignUpJournalistController {
     constructor(private signUpJournalistUseCase: SignUpJournalist) {}
@@ -12,8 +13,11 @@ export class SignUpJournalistController {
     public async handle(req: IRequest, res: IResponse): Promise<Response> {
         const committeId = req.getBodyPropAsNumber("committeId");
         const { password, name, email } = req.getBody();
+        const fileName = req.getFile()?.filename;
 
-        const imgFileName = req.getFile()?.filename;
+        if (fileName) imageStorage.saveFile(fileName, "users");
+
+        const imgFileName = fileName;
 
         const journalistDtoObj: CreateJournalistDto = { committeId, password, imgFileName, name, email };
 
