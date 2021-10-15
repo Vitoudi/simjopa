@@ -6,6 +6,7 @@ import RoundImage from '../../sheredComponents/RoundImage/RoundImage';
 import { GetPostDto, getPostsByJournalist } from '../../utils/db/posts';
 import Post from '../../sheredComponents/Post/Post';
 import { getUserImageFullPath } from '../../utils/db/images';
+import LoaderSpinner from '../../sheredComponents/LoaderSpinner/LoaderSpinner';
 
 export const getStaticPaths: GetStaticPaths =  async () => {
   const journalists = await getJournalists();
@@ -30,6 +31,7 @@ interface Props {
 }
 
 export default function JournalistPage({ journalist }: Props): ReactElement {
+    const [isLoading, setIsLoading] = useState(false);
     const [journalistsPosts, setJournalistPosts] = useState<GetPostDto[]>([]);
 
 
@@ -37,8 +39,11 @@ export default function JournalistPage({ journalist }: Props): ReactElement {
 
     async function getJournalistPosts() {
         if (!journalist) return;
+        setIsLoading(true);
         const posts = await getPostsByJournalist(journalist.id);
-        if (posts) setJournalistPosts(posts); 
+        setIsLoading(false);
+        if (posts) setJournalistPosts(posts);
+         
     }
 
     useEffect(() => {
@@ -49,13 +54,27 @@ export default function JournalistPage({ journalist }: Props): ReactElement {
       <div style={{ padding: "3rem", textAlign: "center" }}>
         <h1 style={{ marginBottom: "1rem" }}>{journalist?.name}</h1>
         <RoundImage src={imgUrl} size={120} alt="journalist image" />
-        <div style={{marginTop: "2.5rem", display: "grid"}}>
+        <div style={{ marginTop: "2.5rem", display: "grid" }}>
           <h2>Posts:</h2>
-          <section style={{ display: "flex", flexWrap: "wrap", marginTop: "1rem", alignContent: "center", justifyContent: "center" }}>
-            {journalistsPosts.map((postInfo) => (
-              <Post key={postInfo.id} post={postInfo} />
-            ))}
-          </section>
+          {!isLoading ? (
+            <section
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                marginTop: "1rem",
+                alignContent: "center",
+                justifyContent: "center",
+              }}
+            >
+              {journalistsPosts.map((postInfo) => (
+                <Post key={postInfo.id} post={postInfo} />
+              ))}
+            </section>
+          ) : (
+            <div style={{marginTop: "3rem"}}>
+              <LoaderSpinner centralized={true} />
+            </div>
+          )}
         </div>
       </div>
     );
