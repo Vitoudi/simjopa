@@ -70,10 +70,3 @@
 
 }
 
-/*
-<p className={styles["date"]}>
-          <Link href={`/committees/${committeId}`}>{committe}</Link>
-          {" - "}
-          {date}
-        </p>
-*/

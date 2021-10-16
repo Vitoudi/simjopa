@@ -30,8 +30,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     const post = await getPost(idNum);
 
   return {
-    props: { post }, // will be passed to the page component as props
-    revalidate: 10, // In seconds
+    props: { post },
+    revalidate: 10,
   };
 }
 

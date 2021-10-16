@@ -1,4 +1,3 @@
-import { GetStaticPropsContext } from 'next';
 import React, { PropsWithChildren, ReactElement, useEffect } from 'react'
 import styles from "../postPage.module.css";
 import PostJournalistHeaderDisplay from "./PostJournalistHeaderDisplay"
@@ -20,7 +19,9 @@ export default function PostHeader({ children, subtitle, committeeId, journalist
     return (
       <div className={styles["header-area"]}>
         <p className={styles["date"]}>
-          <Link href={`/committees/${committeeId}`}>{committee}</Link>
+          <Link href={`/committees/${committeeId}`} passHref>
+            <span>{committee}</span>
+          </Link>
           {" - "}
           {date}
         </p>
