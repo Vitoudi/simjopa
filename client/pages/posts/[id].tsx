@@ -99,9 +99,8 @@ export default function PostPage({ post }: Props): ReactElement {
           strDate={createdAt}
           committee={committe}
           committeeId={committeId}
-        >
-          {title}
-        </PostHeader>
+          title={title}
+        />
         {currentUserIsThePostOwner && (
           <div className={styles["editor-area"]}>
             <div onClick={handleRedirectToPostUpdate}>

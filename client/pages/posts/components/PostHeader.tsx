@@ -10,9 +10,10 @@ interface Props  {
     strDate: string;
     committee: string;
     committeeId: number;
+    title: string;
 }
 
-export default function PostHeader({ children, subtitle, committeeId, journalistId, strDate, committee }: PropsWithChildren<Props>): ReactElement {
+export default function PostHeader({ title, subtitle, committeeId, journalistId, strDate, committee }: Props): ReactElement {
   const date = new Date(strDate).toLocaleDateString();
 
     return (
@@ -26,7 +27,7 @@ export default function PostHeader({ children, subtitle, committeeId, journalist
           </span>
           <span className={styles["date"]}>{date}</span>
         </p>
-        <h1 className={styles["title"]}>{children}</h1>
+        <h1 className={styles["title"]}>{title}</h1>
         <h3 className={styles["subtitle"]}>{subtitle}</h3>
 
         {journalistId && (
