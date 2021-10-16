@@ -1,11 +1,9 @@
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/dist/client/router'
-import Image from 'next/image';
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../globalContext/auth/AuthContext';
 import { PostCreationContext } from '../../globalContext/PostCreationContext';
-import { API_URL } from '../../utils/db/apiRef';
-import { getJournalistById, getJournalistByUserId, GetJournalistDto, PostJournalistDto } from '../../utils/db/journalists';
+import {  getJournalistByUserId, GetJournalistDto, PostJournalistDto } from '../../utils/db/journalists';
 import { deletePost, sendRequestToGetPosts, getPost, GetPostDto, increasePostVisitsNumber, updatePost } from '../../utils/db/posts';
 import { getPathsFor } from '../../utils/getPathsFor';
 import PostContent from './components/PostContent';
@@ -79,7 +77,15 @@ export default function PostPage({ post }: Props): ReactElement {
       <div className={styles["post-page"]}>
         <Head>
           <title>{`${post?.title || "Post"} - AC Sinuma`}</title>
-          <meta name="description" content="Notícia" />
+          <meta name="description" content={post?.subtitle || ""} />
+          <meta property="og:title" content={post?.title || ""} />
+          <meta property="og:description" content={post?.subtitle || ""} />
+          <meta property="og:image" content="/assets/banner.jpg" />
+          <meta property="og:url" content={imgUrl} />
+          <meta name="twitter:title" content={post?.title || ""} />
+          <meta name="twitter:description" content={post?.subtitle || ""} />
+          <meta name="twitter:image" content={imgUrl || ""} />
+          <meta name="twitter:card" content="summary_large_image" />
         </Head>
         <PostHeader
           journalistId={journalistId}
