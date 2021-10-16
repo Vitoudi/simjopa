@@ -40,7 +40,7 @@ interface Props {
 export default function PostPage({ post }: Props): ReactElement {
     const auth = useContext(AuthContext);
     const postCreationProps = useContext(PostCreationContext);
-    const { id, imgRef, title, subtitle, createdAt, journalistId, htmlContent} = post!; 
+    const { id, imgRef, title, subtitle, createdAt, journalistId, htmlContent, committe} = post!; 
     const router = useRouter();
     const imgUrl = getPostImageFullPath(imgRef || "");
     const [ journalist, setJournalist ] = useState<GetJournalistDto | null>(null);
@@ -91,6 +91,7 @@ export default function PostPage({ post }: Props): ReactElement {
           journalistId={journalistId}
           subtitle={subtitle}
           strDate={createdAt}
+          committee={committe}
         >
           {title}
         </PostHeader>

@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function Post({ post }: Props): ReactElement {
-    const {imgRef, id} = post;
+    const {imgRef, id, committe} = post;
     const imgUrl = getPostImageFullPath(imgRef || undefined);
     const title = getFormattedText(post.title, 65);
     const subtitle = getFormattedSubtitle();
@@ -30,7 +30,6 @@ export default function Post({ post }: Props): ReactElement {
         return getFormattedText(post.subtitle, 60); 
       }
 
-    console.log(imgUrl);
 
     return (
       <Link href={`/posts/${id}`} passHref>
@@ -49,6 +48,7 @@ export default function Post({ post }: Props): ReactElement {
             </div>
 
             <div className={styles["info-area"]}>
+              <p className={styles["committee"]}>{committe}</p>
               <h3 className={styles["title"]}>{title}</h3>
               <div>
                 <p className={styles["subtitle"]}>{subtitle}</p>
