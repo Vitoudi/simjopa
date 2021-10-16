@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { IRequest } from "../../Request&Response/IRequest";
 import { IResponse } from "../../Request&Response/IResponse";
-import { badRequest, ok } from "../../utils/HttpResponses";
+import { badRequest, ok, notFound } from "../../utils/HttpResponses";
 import { GetPost } from "./GetPost";
 
 export class GetPostController {
@@ -13,6 +13,9 @@ export class GetPostController {
         if (isNaN(id)) return badRequest(res, "invalid id param");
 
         const post = await this.getPostUseCase.execute(id);
+
+        if (!post)
+            return notFound(res, "Post não encontrado");
 
         console.log("POST -->>", post)
 
