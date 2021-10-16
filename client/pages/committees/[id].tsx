@@ -1,4 +1,4 @@
-import { GetStaticPropsContext } from 'next';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
 import React, { ReactElement, useEffect, useState } from 'react'
 import { GetCommitteeDto, sendRequestToGetCommittee, sendRequestToGetCommittees } from '../../utils/db/committees';
 import { getJournalists } from '../../utils/db/journalists';
@@ -16,18 +16,22 @@ export async function getStaticPaths() {
   const committees = await sendRequestToGetCommittees();
   const paths = getPathsFor(committees);
 
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 }
-export async function getStaticProps(context: GetStaticPropsContext) {
+
+export const getStaticProps: GetStaticProps = async (
+  context: GetStaticPropsContext
+) => {
   const id = context.params?.id;
   const idNum = Number(id);
   const committee = await sendRequestToGetCommittee(idNum);
 
   return {
     props: { committee },
+    notFound: !Boolean(committee),
     revalidate: 10,
   };
-}
+};
 
 interface Props {
     committee: GetCommitteeDto;

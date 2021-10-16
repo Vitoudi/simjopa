@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticPropsContext } from 'next';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import React, { ReactElement, useEffect, useState } from 'react'
 import { getJournalists, getJournalistById, GetJournalistDto, getJournalistImgPath } from '../../utils/db/journalists';
 import { getPathsFor } from '../../utils/getPathsFor';
@@ -15,19 +15,20 @@ export const getStaticPaths: GetStaticPaths =  async () => {
   const journalists = await getJournalists();
   const paths = getPathsFor(journalists);
 
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 }
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
   const id = context.params?.id;
   const idNum = Number(id);
   const journalist = await getJournalistById(idNum);
 
   return {
     props: { journalist },
+    notFound: !Boolean(journalist),
     revalidate: 10,
   };
-}
+};
 
 interface Props {
     journalist: GetJournalistDto | null

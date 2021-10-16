@@ -1,4 +1,4 @@
-import { GetStaticPropsContext } from 'next';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/dist/client/router'
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../globalContext/auth/AuthContext';
@@ -14,35 +14,38 @@ import { FaTrash as DeleteIcon } from "react-icons/fa";
 import { FaPen as UpdateIcon } from "react-icons/fa";
 import Head from 'next/head';
 import { getPostImageFullPath } from '../../utils/db/images';
+import FullCentralizedLoaderSpinner from '../../sheredComponents/FullCentralizedLoaderSpinner/FullCentralizedLoaderSpinner';
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths =  async (context) => {
+  context.defaultLocale
   const posts = await sendRequestToGetPosts();
   const paths = getPathsFor(posts);
 
-  console.log(paths);
-
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 }
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export const getStaticProps: GetStaticProps = async(context: GetStaticPropsContext) => {
     const id = context.params?.id
     const idNum = Number(id);
     const post = await getPost(idNum);
 
+    const postWasFound = Boolean(post);
+
   return {
     props: { post },
+    notFound: !postWasFound,
     revalidate: 10,
   };
 }
 
 interface Props {
-  post: GetPostDto | null;
+  post: GetPostDto;
 }
 
 export default function PostPage({ post }: Props): ReactElement {
     const auth = useContext(AuthContext);
     const postCreationProps = useContext(PostCreationContext);
-    const { id, imgRef, committeId, title, subtitle, createdAt, journalistId, htmlContent, committe} = post!; 
+    const { id, imgRef, committeId, title, subtitle, createdAt, journalistId, htmlContent, committe} = post; 
     const router = useRouter();
     const imgUrl = getPostImageFullPath(imgRef || "");
     const [ journalist, setJournalist ] = useState<GetJournalistDto | null>(null);
@@ -74,6 +77,7 @@ export default function PostPage({ post }: Props): ReactElement {
       addExistingPostForUpdate(post);
       router.push("/create");
     }
+
 
     return (
       <div className={styles["post-page"]}>
