@@ -19,6 +19,8 @@ export async function getStaticPaths() {
   const posts = await sendRequestToGetPosts();
   const paths = getPathsFor(posts);
 
+  console.log(paths);
+
   return { paths, fallback: false };
 }
 
@@ -40,7 +42,7 @@ interface Props {
 export default function PostPage({ post }: Props): ReactElement {
     const auth = useContext(AuthContext);
     const postCreationProps = useContext(PostCreationContext);
-    const { id, imgRef, journalistId, htmlContent, committe} = post!; 
+    const { id, imgRef, committeId, title, subtitle, createdAt, journalistId, htmlContent, committe} = post!; 
     const router = useRouter();
     const imgUrl = getPostImageFullPath(imgRef || "");
     const [ journalist, setJournalist ] = useState<GetJournalistDto | null>(null);
@@ -87,7 +89,15 @@ export default function PostPage({ post }: Props): ReactElement {
           <meta name="twitter:image" content={imgUrl || ""} />
           <meta name="twitter:card" content="summary_large_image" />
         </Head>
-        {post && <PostHeader post={post} />}
+        <PostHeader
+          journalistId={journalistId}
+          subtitle={subtitle}
+          strDate={createdAt}
+          committee={committe}
+          committeeId={committeId}
+        >
+          {title}
+        </PostHeader>
         {currentUserIsThePostOwner && (
           <div className={styles["editor-area"]}>
             <div onClick={handleRedirectToPostUpdate}>

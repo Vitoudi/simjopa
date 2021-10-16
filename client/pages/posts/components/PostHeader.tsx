@@ -1,27 +1,30 @@
 import { GetStaticPropsContext } from 'next';
 import React, { PropsWithChildren, ReactElement, useEffect } from 'react'
-import { GetPostDto } from '../../../utils/db/posts';
 import styles from "../postPage.module.css";
 import PostJournalistHeaderDisplay from "./PostJournalistHeaderDisplay"
 import Link from "next/link";
 
 
 interface Props  {
-    post: GetPostDto
+    subtitle: string;
+    journalistId?: number;
+    strDate: string;
+    committee: string;
+    committeeId: number;
+    children: PropsWithChildren<Text | string>;
 }
 
-export default function PostHeader({ post }: PropsWithChildren<Props>): ReactElement {
-  const { createdAt, committe, title, subtitle, journalistId, committeId } = post;
-  const date = createdAt ? new Date(createdAt).toLocaleDateString() : new Date().toLocaleDateString();
+export default function PostHeader({ children, subtitle, committeeId, journalistId, strDate, committee }: Props): ReactElement {
+  const date = new Date(strDate).toLocaleDateString();
 
     return (
       <div className={styles["header-area"]}>
         <p className={styles["date"]}>
-          <Link href={`/committees/${committeId}`}>{committe}</Link>
+          <Link href={`/committees/${committeeId}`}>{committee}</Link>
           {" - "}
           {date}
         </p>
-        <h1 className={styles["title"]}>{title}</h1>
+        <h1 className={styles["title"]}>{children}</h1>
         <h3 className={styles["subtitle"]}>{subtitle}</h3>
 
         {journalistId && (
