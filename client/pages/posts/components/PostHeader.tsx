@@ -12,7 +12,7 @@ interface Props  {
 
 export default function PostHeader({ post }: PropsWithChildren<Props>): ReactElement {
   const { createdAt, committe, title, subtitle, journalistId, committeId } = post;
-  const date = new Date(createdAt).toLocaleDateString();
+  const date = createdAt ? new Date(createdAt).toLocaleDateString() : new Date().toLocaleDateString();
 
     return (
       <div className={styles["header-area"]}>
