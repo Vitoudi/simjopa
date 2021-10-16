@@ -15,6 +15,7 @@ import styles from "./postPage.module.css";
 import { FaTrash as DeleteIcon } from "react-icons/fa";
 import { FaPen as UpdateIcon } from "react-icons/fa";
 import Head from 'next/head';
+import { getPostImageFullPath } from '../../utils/db/images';
 
 export async function getStaticPaths() {
   const posts = await sendRequestToGetPosts();
@@ -43,7 +44,7 @@ export default function PostPage({ post }: Props): ReactElement {
     const postCreationProps = useContext(PostCreationContext);
     const { id, imgRef, title, subtitle, createdAt, journalistId, htmlContent} = post!; 
     const router = useRouter();
-    const imgUrl = API_URL + "/assets/posts/" + imgRef;
+    const imgUrl = getPostImageFullPath(imgRef || "");
     const [ journalist, setJournalist ] = useState<GetJournalistDto | null>(null);
     const currentUserIsThePostOwner = journalist?.id === journalistId;
 
