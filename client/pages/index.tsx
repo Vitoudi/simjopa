@@ -41,6 +41,11 @@ export default function Home({ hotPosts, latestPosts, committees }: props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className={styles["posts-area"]}>
+        <PostsContainer postsList={latestPosts} title="Mais recentes:">
+          <Link href="/posts" passHref>
+            <button className={styles["show-more-btn"]}>Ver mais</button>
+          </Link>
+        </PostsContainer>
         <div>
           <PostsContainer postsList={hotPosts} title="Mais lidas:">
             <Link href="/posts?hot=true" passHref>
@@ -48,12 +53,6 @@ export default function Home({ hotPosts, latestPosts, committees }: props) {
             </Link>
           </PostsContainer>
         </div>
-
-        <PostsContainer postsList={latestPosts} title="Mais recentes:">
-          <Link href="/posts" passHref>
-            <button className={styles["show-more-btn"]}>Ver mais</button>
-          </Link>
-        </PostsContainer>
       </section>
 
       {committees && <aside className={styles["aside"]}>
