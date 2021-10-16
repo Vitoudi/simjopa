@@ -36,8 +36,16 @@
     display: flex;
     align-content: center;
     flex-wrap: wrap;
+    gap: 1rem;
+    
 }
 
 .journalists-container-wrapper {
     padding: 3rem;
+}
+
+@media (max-width: 600px) {
+    .journalists-container-wrapper {
+    padding: 1rem;
+}
 }

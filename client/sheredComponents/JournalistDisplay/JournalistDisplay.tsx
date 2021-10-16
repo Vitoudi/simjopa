@@ -9,7 +9,7 @@ interface Props {
 
 export default function JournalistDisplay({ journalist }: Props): ReactElement {
     const { imgRef, name, id } = journalist;
-    const imgPath = imgRef && getUserImageFullPath(imgRef);
+    const imgPath = getUserImageFullPath(imgRef || undefined);
 
     useEffect(() => console.log(imgPath), [imgPath]);
 

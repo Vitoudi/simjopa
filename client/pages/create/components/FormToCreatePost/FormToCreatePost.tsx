@@ -5,6 +5,7 @@ import PostContentEditor from '../PostContentEditor/PostContentEditor';
 import Button from '../../../../sheredComponents/Button/Button';
 import styles from "./FormToCreatePost.module.css";
 import CenteredPageContent from '../../../../sheredComponents/CenteredPageContent/CenteredPageContent';
+import LoaderSpinner from '../../../../sheredComponents/LoaderSpinner/LoaderSpinner';
 
 interface Props {
     postCreationProps: PostCreationProps;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function FormToCreatePost({ postCreationProps, children, creationInfoForAdmins }: PropsWithChildren<Props>): ReactElement {
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
@@ -43,7 +45,9 @@ export default function FormToCreatePost({ postCreationProps, children, creation
       if (title.length > MAX_LENGTH_FOR_TITLE) return setErrorMsg(`O resumo é muito grande (limite de ${MAX_LENGTH_FOR_SUBTITLE} caracteres)`);
       if (creationInfoForAdmins && !creationInfoForAdmins.journalistId) return setErrorMsg("Selecione um jornalista");
 
+      setIsLoading(true);
       const res = await submitPost(creationInfoForAdmins);
+      setIsLoading(false);
       if (!res.success) return setErrorMsg(res.msg);
 
       setSuccessMsg(res.msg);
@@ -100,8 +104,12 @@ export default function FormToCreatePost({ postCreationProps, children, creation
               {successMsg}
             </p>
           )}
+          {isLoading && <LoaderSpinner size="small" />}
           {children}
-          <Button additionalStyles={{ width: "46vw" }} onClick={handlePostSubmit}>
+          <Button
+            additionalStyles={{ width: "46vw" }}
+            onClick={handlePostSubmit}
+          >
             {mode === "create" ? "Criar" : "Atualizar"}
           </Button>
         </div>

@@ -1,0 +1,29 @@
+
+.page {
+    padding: 3rem;
+    
+}
+
+.info {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.journalist-name {
+    margin-bottom: 1rem;
+}
+
+.posts-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    align-content: center;
+    justify-content: center;
+
+}
+
+@media (max-width: 900px) {
+    .page {
+        padding: 0;
+    }
+}
