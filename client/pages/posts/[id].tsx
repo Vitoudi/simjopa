@@ -80,7 +80,7 @@ export default function PostPage({ post }: Props): ReactElement {
           <meta name="description" content={post?.subtitle || ""} />
           <meta property="og:title" content={post?.title || ""} />
           <meta property="og:description" content={post?.subtitle || ""} />
-          <meta property="og:image" content="/assets/banner.jpg" />
+          <meta property="og:image" content={imgUrl} />
           <meta property="og:url" content={imgUrl} />
           <meta name="twitter:title" content={post?.title || ""} />
           <meta name="twitter:description" content={post?.subtitle || ""} />
