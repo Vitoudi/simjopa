@@ -19,12 +19,10 @@ export default function PostHeader({ title, subtitle, committeeId, journalistId,
     return (
       <div className={styles["header-area"]}>
         <p className={styles["top-info"]}>
-          <span className={styles["committee"]}>
-            <Link href={`/committees/${committeeId}`} passHref>
-              {committee}
-            </Link>
-            {" - "}
-          </span>
+          <Link href={`/committees/${committeeId}`} passHref>
+            <span className={styles["committee"]}>{committee}</span>
+          </Link>
+          {" - "}
           <span className={styles["date"]}>{date}</span>
         </p>
         <h1 className={styles["title"]}>{title}</h1>
