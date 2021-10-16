@@ -19,7 +19,7 @@ export async function getStaticPaths() {
   const posts = await sendRequestToGetPosts();
   const paths = getPathsFor(posts);
 
-  return { paths, fallback: "blocking" };
+  return { paths, fallback: false };
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {

@@ -16,7 +16,7 @@ export async function getStaticPaths() {
   const committees = await sendRequestToGetCommittees();
   const paths = getPathsFor(committees);
 
-  return { paths, fallback: "blocking" };
+  return { paths, fallback: false };
 }
 export async function getStaticProps(context: GetStaticPropsContext) {
   const id = context.params?.id;

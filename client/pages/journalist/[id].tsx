@@ -15,7 +15,7 @@ export const getStaticPaths: GetStaticPaths =  async () => {
   const journalists = await getJournalists();
   const paths = getPathsFor(journalists);
 
-  return { paths, fallback: "blocking" };
+  return { paths, fallback: false };
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
