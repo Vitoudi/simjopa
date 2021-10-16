@@ -20,6 +20,7 @@ a {
 :root {
   --main-color: rgb(0, 59, 96);
   --main-color-bright: rgb(0, 94, 153);
+  --secondary-color: rgb(173, 151, 23);
   --l-grey: rgb(245, 245, 245);
   --l-grey2: rgb(226, 225, 225);
   --l-black: rgb(105, 105, 105);

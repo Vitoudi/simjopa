@@ -18,10 +18,19 @@
   margin-bottom: 1rem;
 }
 
+.top-info {
+    font-weight: 600;
+}
+
 .date {
   color: rgba(5, 5, 5, 0.4);
-  font-weight: 600;
+ 
 }
+
+.committee {
+    color: var(--secondary-color);
+}
+
 
 .subtitle {
   color: var(--l-black);

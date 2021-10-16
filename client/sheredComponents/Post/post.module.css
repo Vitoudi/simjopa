@@ -44,7 +44,7 @@
     font-size: .7rem;
     margin-bottom: .3rem;
     margin-left: auto;
-    color: rgb(173, 151, 23);
+    color: var(--secondary-color);
 }
 
 @media (max-width: 600px) {
