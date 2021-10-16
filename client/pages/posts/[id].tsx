@@ -94,14 +94,8 @@ export default function PostPage({ post }: Props): ReactElement {
           <meta name="twitter:card" content="summary_large_image" />
         </Head>
         <PostHeader
-          journalistId={journalistId}
-          subtitle={subtitle}
-          strDate={createdAt}
-          committee={committe}
-          committeeId={committeId}
-        >
-          {title}
-        </PostHeader>
+          post={post}
+        />
         {currentUserIsThePostOwner && (
           <div className={styles["editor-area"]}>
             <div onClick={handleRedirectToPostUpdate}>
