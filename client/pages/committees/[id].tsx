@@ -51,7 +51,7 @@ export default function CommitteePage({ committee }: Props): ReactElement {
     return (
       <div>
         <Head>
-          <title>{`${committee?.name || "Comitê"} - AC Sinuma`}</title>
+          <title>{`${committee?.name || "Comitê"} - Lecteur Mariste`}</title>
           <meta name="description" content="Página de comitê" />
         </Head>
         <div className={styles["banner-container"]}>

@@ -38,8 +38,8 @@ export default function Header({}: Props): ReactElement {
               <Image
                 alt="logo"
                 src="/assets/logo.png"
-                width={130}
-                height={80}
+                width={200}
+                height={100}
                 objectFit="contain"
               />
             </Link>

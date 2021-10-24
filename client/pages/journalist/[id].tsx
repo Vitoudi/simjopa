@@ -57,7 +57,9 @@ export default function JournalistPage({ journalist }: Props): ReactElement {
     return (
       <div className="page">
         <Head>
-          <title>{`${journalist?.name || "Jornalista"} - AC Sinuma`}</title>
+          <title>{`${
+            journalist?.name || "Jornalista"
+          } - Lecteur Mariste`}</title>
           <meta name="description" content="Página de jornalista" />
         </Head>
         <div className={styles["info"]}>
@@ -67,7 +69,7 @@ export default function JournalistPage({ journalist }: Props): ReactElement {
 
         <div style={{ marginTop: "2.5rem" }}>
           {!isLoading ? (
-            <PostsContainer title="Posts:" postsList={journalistsPosts}/>
+            <PostsContainer title="Posts:" postsList={journalistsPosts} />
           ) : (
             <div style={{ marginTop: "3rem" }}>
               <LoaderSpinner centralized={true} />

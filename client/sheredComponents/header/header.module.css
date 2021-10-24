@@ -19,6 +19,7 @@
 
 .logo-container {
     cursor: pointer;
+    margin-top: .5rem;
 }
 
 .nav {

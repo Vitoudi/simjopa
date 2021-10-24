@@ -82,7 +82,7 @@ export default function PostPage({ post }: Props): ReactElement {
     return (
       <div className={styles["post-page"]}>
         <Head>
-          <title>{`${post?.title || "Post"} - AC Sinuma`}</title>
+          <title>{`${post?.title || "Post"} - Lecteur Mariste`}</title>
           <meta name="description" content={post?.subtitle || ""} />
           <meta property="og:title" content={post?.title || ""} />
           <meta property="og:description" content={post?.subtitle || ""} />

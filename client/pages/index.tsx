@@ -36,8 +36,8 @@ export default function Home({ hotPosts, latestPosts, committees }: props) {
   return (
     <div className={styles["home-page"]}>
       <Head>
-        <title>Sinuma AC</title>
-        <meta name="description" content="O portal de notícias da sinuma" />
+        <title>Lecteur Mariste - Simjopa 2021</title>
+        <meta name="description" content="O portal de notícias da Simjopa" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className={styles["posts-area"]}>

@@ -26,7 +26,7 @@ export default function SearchPage({}: Props): ReactElement {
   return (
     <div className={styles["page"]}>
       <Head>
-        <title>{`Pesquisar - AC Sinuma`}</title>
+        <title>{`Pesquisar - Lecteur Mariste`}</title>
         <meta name="description" content="Página de pesquisa" />
       </Head>
       <h1 className={styles["title"]}>Pesquisar:</h1>

@@ -61,7 +61,7 @@ export default function PostsPage({ shouldLoadHotPosts }: Props): ReactElement {
     return (
       <div>
         <Head>
-          <title>{`Posts - AC Sinuma`}</title>
+          <title>{`Posts - Lecteur Mariste`}</title>
           <meta name="description" content="Notícia" />
         </Head>
         <PostsContainer postsList={posts} title="Todos:" />
