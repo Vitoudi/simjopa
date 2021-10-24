@@ -10,7 +10,7 @@ var cors_1 = __importDefault(require("cors"));
 var app = express_1.default();
 exports.app = app;
 var allowedOrigins = [
-    "https://sinuma-orcin.vercel.app",
+    "https://simjopa.vercel.app",
     "http://localhost:3000",
 ];
 app.use(express_1.default.static("public"));

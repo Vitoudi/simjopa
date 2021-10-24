@@ -54,6 +54,8 @@ var GetPostController = /** @class */ (function () {
                         return [4 /*yield*/, this.getPostUseCase.execute(id)];
                     case 1:
                         post = _a.sent();
+                        if (!post)
+                            return [2 /*return*/, HttpResponses_1.notFound(res, "Post não encontrado")];
                         console.log("POST -->>", post);
                         return [2 /*return*/, HttpResponses_1.ok(res, post)];
                 }
