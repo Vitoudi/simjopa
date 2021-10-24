@@ -19,7 +19,9 @@
 
 .logo-container {
     cursor: pointer;
-    margin-top: .5rem;
+    position: relative;
+    width: 180px;
+    height: 100px;
 }
 
 .nav {
@@ -50,4 +52,16 @@
     background-color: rgb(250, 250, 250);
     box-shadow: 2px 2px 4px 1px var(--l-grey2);
 }
+
+.logo-container {
+    width: 150px;
+    height: 70px;
+}
+}
+
+@media (max-width: 320px) {
+    .logo-container {
+        width: 120px;
+        height: 70px;
+    }
 }
