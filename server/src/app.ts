@@ -5,10 +5,7 @@ import formidable from "express-formidable";
 
 const app = express();
 
-const allowedOrigins = [
-  "https://sinuma-orcin.vercel.app",
-  "http://localhost:3000",
-];
+const allowedOrigins = ["https://simjopa.vercel.app/", "http://localhost:3000"];
 
 app.use(express.static("public"));
 app.use(express.json());
