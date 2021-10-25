@@ -2,7 +2,7 @@ import multer from "multer";
 import path from "path";
 
 function getUniqueFileName(originalFileName: string) {
-  return `${Date.now()}-${originalFileName.replace(/ /g, '')}`;
+  return `${originalFileName.replace(/ /g, '')}`;
 }
 
 export const multerUserStorage = multer.diskStorage({
