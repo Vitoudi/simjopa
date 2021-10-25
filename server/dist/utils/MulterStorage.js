@@ -7,7 +7,7 @@ exports.multerStorage = exports.multerCommitteStorage = exports.multerPostsStora
 var multer_1 = __importDefault(require("multer"));
 var path_1 = __importDefault(require("path"));
 function getUniqueFileName(originalFileName) {
-    return Date.now() + "-" + originalFileName.replace(/ /g, '');
+    return "" + originalFileName.replace(/ /g, '');
 }
 exports.multerUserStorage = multer_1.default.diskStorage({
     destination: function (req, file, callback) {
