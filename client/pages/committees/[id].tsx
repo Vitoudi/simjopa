@@ -77,7 +77,7 @@ export default function CommitteePage({ committee }: Props): ReactElement {
         <h1 className={styles["title"]}>{committee.name}</h1>
       </div>
 
-      {isLoading ? (
+      {!isLoading ? (
         <>
           <div className={styles["journalists-container-wrapper"]}>
             <h2 style={{ marginBottom: "1rem" }}>Jornalistas:</h2>
