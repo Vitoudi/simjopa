@@ -64,7 +64,7 @@ var DeletePostController = /** @class */ (function () {
                         return [4 /*yield*/, this.deletePostUseCase.execute(postId)];
                     case 2:
                         _a.sent();
-                        return [2 /*return*/];
+                        return [2 /*return*/, HttpResponses_1.ok(res, "Post apagado com sucesso!")];
                 }
             });
         });

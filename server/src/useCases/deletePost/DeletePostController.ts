@@ -1,7 +1,7 @@
 import { IRequest } from "../../Request&Response/IRequest";
 import { IResponse } from "../../Request&Response/IResponse";
 import { CheckIfUserHasAuthorizationToModifyPostService } from "../../utils/CheckIfPostBelogsToUserService";
-import { badRequest, unauthorized } from "../../utils/HttpResponses";
+import { badRequest, unauthorized, ok } from "../../utils/HttpResponses";
 import { GetJournalist } from "../getJournalist/GetJournalist";
 import { GetPost } from "../getPost/GetPost";
 import { DeletePost } from "./DeletePost";
@@ -26,5 +26,6 @@ export class DeletePostController {
             return unauthorized(res, "you don't have permission to delete this post");
 
         await this.deletePostUseCase.execute(postId);
+        return ok(res, "Post apagado com sucesso!");
     }
 }
