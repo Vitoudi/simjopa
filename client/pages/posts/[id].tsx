@@ -17,6 +17,7 @@ import { getPostImageFullPath } from '../../utils/db/images';
 import Modal from "react-modal"
 import Button from '../../sheredComponents/Button/Button';
 import LoaderSpinner from '../../sheredComponents/LoaderSpinner/LoaderSpinner';
+import { UserRole } from '../../utils/db/users';
 
 export const getStaticPaths: GetStaticPaths =  async (context) => {
   context.defaultLocale
@@ -52,9 +53,11 @@ export default function PostPage({ post }: Props): ReactElement {
     const imgUrl = getPostImageFullPath(imgRef || "");
     const [ journalist, setJournalist ] = useState<GetJournalistDto | null>(null);
     const currentUserIsThePostOwner = journalist?.id === journalistId;
+    const isAdmin = auth.user?.role === UserRole.ADMIN;
     const [modalShouldBeOpen, setModalShouldBeOpen] = useState(false);
     const [postDeletionIsLoading, setPostDeletionIsLoading] = useState(false);
     const [postDeletionMsg, setPostDeletionMsg] = useState("");
+    const userHasAuthorizationToModifyPost = isAdmin || currentUserIsThePostOwner;
 
     useEffect(() => {
         if (!post) router.replace("/");
@@ -90,7 +93,8 @@ export default function PostPage({ post }: Props): ReactElement {
       const { addExistingPostForUpdate } = postCreationProps;
       if (!post) return;
       addExistingPostForUpdate(post);
-      router.push("/create");
+      const url = isAdmin ? `/admin` : `/create`;
+      router.push(url);
     }
 
 
@@ -116,7 +120,7 @@ export default function PostPage({ post }: Props): ReactElement {
           committeeId={committeId}
           title={title}
         />
-        {currentUserIsThePostOwner && (
+        {userHasAuthorizationToModifyPost && (
           <>
             <Modal
               style={{
