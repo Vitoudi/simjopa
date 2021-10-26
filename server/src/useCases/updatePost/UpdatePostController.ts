@@ -3,6 +3,7 @@ import { IRequest } from "../../Request&Response/IRequest";
 import { IResponse } from "../../Request&Response/IResponse";
 import { badRequest, customHttpResponse, ok } from "../../utils/HttpResponses";
 import { CreatePostDto } from "../createPost/CreatePostDto";
+import { imageStorage } from "../sharedDependencies";
 import { UpdatePost } from "./updatePost";
 
 export class UpdatePostController {
@@ -14,7 +15,16 @@ export class UpdatePostController {
         const decodedAuthToken = req.getDecodedAuthToken()!;
         const userId = decodedAuthToken.id;
         const { title, subtitle, htmlContent } = req.getBody();
-        const imgFile = req.getFile();
+
+        let fileName = req.getFile()?.filename;
+
+        console.log("file name: ", fileName);
+
+        if (fileName) {
+            const saveFileResponse = await imageStorage.saveFile(fileName, "posts");
+            console.log("save file response: ", saveFileResponse);
+        };
+
 
         if (isNaN(postId))
             return badRequest(res, "Valid post id must be provided");
@@ -23,7 +33,7 @@ export class UpdatePostController {
             title,
             subtitle,
             htmlContent,
-            imgRef: imgFile && Post.getImgRefForFileName(imgFile.filename)
+            imgRef: fileName || null
         }
 
         const responseForPostUpdate = await this.updatePostUseCase.execute(postId, userId, objectForUpdate);

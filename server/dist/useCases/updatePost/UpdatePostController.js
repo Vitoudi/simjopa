@@ -37,35 +37,45 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdatePostController = void 0;
-var Post_1 = require("../../entities/Post");
 var HttpResponses_1 = require("../../utils/HttpResponses");
+var sharedDependencies_1 = require("../sharedDependencies");
 var UpdatePostController = /** @class */ (function () {
     function UpdatePostController(updatePostUseCase) {
         this.updatePostUseCase = updatePostUseCase;
     }
     UpdatePostController.prototype.handle = function (req, res) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var postId, decodedAuthToken, userId, _a, title, subtitle, htmlContent, imgFile, objectForUpdate, responseForPostUpdate;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var postId, decodedAuthToken, userId, _b, title, subtitle, htmlContent, fileName, saveFileResponse, objectForUpdate, responseForPostUpdate;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         console.log("body: ", req.getBody());
                         postId = req.getBodyPropAsNumber("id");
                         decodedAuthToken = req.getDecodedAuthToken();
                         userId = decodedAuthToken.id;
-                        _a = req.getBody(), title = _a.title, subtitle = _a.subtitle, htmlContent = _a.htmlContent;
-                        imgFile = req.getFile();
+                        _b = req.getBody(), title = _b.title, subtitle = _b.subtitle, htmlContent = _b.htmlContent;
+                        fileName = (_a = req.getFile()) === null || _a === void 0 ? void 0 : _a.filename;
+                        console.log("file name: ", fileName);
+                        if (!fileName) return [3 /*break*/, 2];
+                        return [4 /*yield*/, sharedDependencies_1.imageStorage.saveFile(fileName, "posts")];
+                    case 1:
+                        saveFileResponse = _c.sent();
+                        console.log("save file response: ", saveFileResponse);
+                        _c.label = 2;
+                    case 2:
+                        ;
                         if (isNaN(postId))
                             return [2 /*return*/, HttpResponses_1.badRequest(res, "Valid post id must be provided")];
                         objectForUpdate = {
                             title: title,
                             subtitle: subtitle,
                             htmlContent: htmlContent,
-                            imgRef: imgFile && Post_1.Post.getImgRefForFileName(imgFile.filename)
+                            imgRef: fileName || null
                         };
                         return [4 /*yield*/, this.updatePostUseCase.execute(postId, userId, objectForUpdate)];
-                    case 1:
-                        responseForPostUpdate = _b.sent();
+                    case 3:
+                        responseForPostUpdate = _c.sent();
                         return [2 /*return*/, HttpResponses_1.customHttpResponse(res, { statusCode: responseForPostUpdate.statusCode, msg: responseForPostUpdate.msg })];
                 }
             });
