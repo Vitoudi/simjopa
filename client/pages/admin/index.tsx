@@ -1,5 +1,5 @@
 import { GetStaticProps, GetStaticPropsContext } from "next";
-import React, { ReactElement, useContext, useState } from "react";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../globalContext/auth/AuthContext";
 import { PostCreationContext } from "../../globalContext/PostCreationContext";
 import FileInput from "../../sheredComponents/FileInput/FileInput";
@@ -48,6 +48,11 @@ export default function AdminPage({ journalists }: Props): ReactElement {
     setJournalistId(valueNumber);
   }
 
+  useEffect(() => {
+    const journalistId = postCreationProps?.post?.journalistId;
+    if (journalistId) setJournalistId(journalistId);
+  }, [postCreationProps.post])
+
   return (
     <AuthProtection redirectUrl="/" minimumRoleRequired={UserRole.ADMIN} >
       <div className={styles["page"]}>
@@ -74,7 +79,7 @@ export default function AdminPage({ journalists }: Props): ReactElement {
               onValueChange={handleJournalistChange}
             >
               {journalists.map((journalist) => (
-                <option key={journalist.id} value={journalist.id}>
+                <option selected={postCreationProps?.post?.journalistId === journalist.id} key={journalist.id} value={journalist.id}>
                   {journalist.name}
                 </option>
               ))}

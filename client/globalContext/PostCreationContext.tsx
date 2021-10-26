@@ -41,6 +41,7 @@ export interface PostCreationProps {
   addExistingPostForUpdate: (post: GetPostDto) => void;
   editorState: any;
   mode: PostCreationMode;
+  post?: GetPostDto | null;
   setMode: React.Dispatch<React.SetStateAction<PostCreationMode>>;
 }
 
@@ -198,7 +199,8 @@ export default function PostCreationContextProvider({
         submitPost,
         addExistingPostForUpdate,
         mode,
-        setMode
+        setMode,
+        post
       }}
     >
       {children}
