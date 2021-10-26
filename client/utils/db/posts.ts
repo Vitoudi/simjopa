@@ -109,7 +109,7 @@ export async function deletePost(token: string, id: number) {
     await axios.delete(`${POSTS_URL}/${id}`, {headers: authHeader});
   } catch(err) {
     const error = err as AxiosError;
-    console.log(error.response)
+    console.log("DELETION ERROR: ", error.response)
   }
 }
 

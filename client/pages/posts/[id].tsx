@@ -14,7 +14,9 @@ import { FaTrash as DeleteIcon } from "react-icons/fa";
 import { FaPen as UpdateIcon } from "react-icons/fa";
 import Head from 'next/head';
 import { getPostImageFullPath } from '../../utils/db/images';
-import FullCentralizedLoaderSpinner from '../../sheredComponents/FullCentralizedLoaderSpinner/FullCentralizedLoaderSpinner';
+import Modal from "react-modal"
+import Button from '../../sheredComponents/Button/Button';
+import LoaderSpinner from '../../sheredComponents/LoaderSpinner/LoaderSpinner';
 
 export const getStaticPaths: GetStaticPaths =  async (context) => {
   context.defaultLocale
@@ -50,6 +52,9 @@ export default function PostPage({ post }: Props): ReactElement {
     const imgUrl = getPostImageFullPath(imgRef || "");
     const [ journalist, setJournalist ] = useState<GetJournalistDto | null>(null);
     const currentUserIsThePostOwner = journalist?.id === journalistId;
+    const [modalShouldBeOpen, setModalShouldBeOpen] = useState(false);
+    const [postDeletionIsLoading, setPostDeletionIsLoading] = useState(false);
+    const [postDeletionMsg, setPostDeletionMsg] = useState("");
 
     useEffect(() => {
         if (!post) router.replace("/");
@@ -67,8 +72,18 @@ export default function PostPage({ post }: Props): ReactElement {
       increasePostVisitsNumber(post?.id);
     }, [post]);
 
-    function handleDelete() {
-        deletePost(auth.getUserAuthToken() || "" ,id);
+    async function handleDelete() {
+        setPostDeletionIsLoading(true);
+        await deletePost(auth.getUserAuthToken() || "" ,id);
+        setPostDeletionIsLoading(false);
+        setPostDeletionMsg("Post apagado com sucesso! O resultado pode demorar alguns minutos");
+
+        setTimeout(() => router.push("/"), 5000)
+    }
+
+    function handlePostDeletionModalClose() {
+        setModalShouldBeOpen(false);
+        setPostDeletionMsg("");
     }
 
     function handleRedirectToPostUpdate() {
@@ -102,17 +117,61 @@ export default function PostPage({ post }: Props): ReactElement {
           title={title}
         />
         {currentUserIsThePostOwner && (
-          <div className={styles["editor-area"]}>
-            <div onClick={handleRedirectToPostUpdate}>
-              <UpdateIcon />
-              <div style={{ color: "darkslateblue" }}>Atualizar</div>
-            </div>
+          <>
+            <Modal
+              style={{
+                content: {
+                  maxHeight: "400px",
+                  maxWidth: "500px",
+                  top: "50%",
+                  left: "50%",
+                  right: "auto",
+                  bottom: "auto",
+                  marginRight: "-50%",
+                  transform: "translate(-50%, -50%)",
+                },
+                overlay: { justifyContent: "center", display: "grid" },
+              }}
+              onRequestClose={handlePostDeletionModalClose}
+              isOpen={modalShouldBeOpen}
+            >
+              <h2>Quer mesmo apagar o post?</h2>
+              <div style={{ display: "flex" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "1rem",
+                    margin: "1rem 0",
+                    marginLeft: "auto",
+                  }}
+                >
+                  <Button onClick={handlePostDeletionModalClose}>
+                    Cancelar
+                  </Button>
+                  <Button onClick={handleDelete}>Confirmar</Button>
+                </div>
+              </div>
+              {postDeletionIsLoading && (
+                
+                  <LoaderSpinner centralized={true} />
+                
+              )}
+              {postDeletionMsg && (
+                <p style={{ color: "green" }}>{postDeletionMsg}</p>
+              )}
+            </Modal>
+            <div className={styles["editor-area"]}>
+              <div onClick={handleRedirectToPostUpdate}>
+                <UpdateIcon />
+                <div style={{ color: "darkslateblue" }}>Atualizar</div>
+              </div>
 
-            <div onClick={handleDelete}>
-              <DeleteIcon colorInterpolation="red" />
-              <div style={{ color: "darkred" }}>Deletar</div>
+              <div onClick={() => setModalShouldBeOpen(true)}>
+                <DeleteIcon colorInterpolation="red" />
+                <div style={{ color: "darkred" }}>Deletar</div>
+              </div>
             </div>
-          </div>
+          </>
         )}
         <PostImage src={imgUrl} />
         <PostContent htmlContent={htmlContent} />
